@@ -102,3 +102,31 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+debian
+doc
+.idea
+.gitignore
+odoo.conf
+odoo/addons/test_access_rights
+odoo/addons/test_action_bindings
+odoo/addons/test_assetsbundle
+odoo/addons/test_convert
+odoo/addons/test_converter
+odoo/addons/test_documentation_examples
+odoo/addons/test_exceptions
+odoo/addons/test_impex
+odoo/addons/test_inherit
+odoo/addons/test_inherits
+odoo/addons/test_inherits_depends
+odoo/addons/test_limits
+odoo/addons/test_lint
+odoo/addons/test_main_flows
+odoo/addons/test_mimetypes
+odoo/addons/test_new_api
+odoo/addons/test_performance
+odoo/addons/test_read_group
+odoo/addons/test_rpc
+odoo/addons/test_testing_utilities
+odoo/addons/test_translation_import
+odoo/addons/test_uninstall
