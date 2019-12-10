@@ -130,3 +130,5 @@ odoo/addons/test_rpc
 odoo/addons/test_testing_utilities
 odoo/addons/test_translation_import
 odoo/addons/test_uninstall
+.DS_Store
+addons/.DS_Store
