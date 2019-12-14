@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <menuitem id="menu_tool" name="配置" groups="amos_base.amos_admin"  sequence="100" web_icon="amos_base,static/description/icon.png"/>
+    <menuitem id="menu_city" name="城市" groups="amos_base.amos_admin"  parent="menu_tool" sequence="100" web_icon="amos_base,static/description/icon.png"/>
+
+    <menuitem name="用户" action="base.action_res_users" groups="amos_base.amos_admin" id="menu_action_res_users1" parent="menu_tool" sequence="1"/>
+    <menuitem name="公司" action="base.action_res_company_form" groups="amos_base.amos_admin" id="menu_action_res_company_form1" parent="menu_tool"
+              sequence="2"/>
+
+        <menuitem id="contacts.res_partner_menu_contacts"
+              name="Contacts"
+              action="contacts.action_contacts"
+              parent="contacts.menu_contacts"
+              groups="amos_base.amos_menu_contacts"
+              sequence="2"/>
+
+
+<!--    <menuitem id="base.menu_board_root" name="Dashboards" sequence="305" web_icon="base,static/description/board.png"-->
+<!--              groups="amos_base.amos_menu_board"/>-->
+
+<!--    <menuitem-->
+<!--            id="board.menu_board_my_dash"-->
+<!--            parent="base.menu_board_root"-->
+<!--            action="board.open_board_my_dash_action"-->
+<!--            groups="amos_base.amos_menu_board"-->
+<!--            sequence="5"/>-->
+
+
+    <menuitem
+            id="mail.menu_root_discuss"
+            name="Discuss"
+            action="mail.action_discuss"
+            web_icon="mail,static/description/icon.png"
+            groups="amos_base.amos_menu_discuss"
+            sequence="1"/>
+
+        <menuitem
+        id="calendar.mail_menu_calendar"
+        name="Calendar"
+        sequence="2"
+        action="calendar.action_calendar_event"
+        web_icon="calendar,static/description/icon.png"
+        groups="amos_base.amos_menu_calendar"
+        />
+
+</odoo>

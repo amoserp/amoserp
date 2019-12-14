@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record model="ir.module.category" id="amos_menu">
+            <field name="name">菜单</field>
+        </record>
+
+        <record model="res.groups" id="amos_menu_contacts">
+            <field name="name">菜单-联系人</field>
+            <field name="category_id" ref="amos_menu"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record model="res.groups" id="amos_menu_board">
+            <field name="name">菜单-仪表板</field>
+            <field name="category_id" ref="amos_menu"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record model="res.groups" id="amos_menu_discuss">
+            <field name="name">菜单-讨论</field>
+            <field name="category_id" ref="amos_menu"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record model="res.groups" id="amos_menu_calendar">
+            <field name="name">菜单-日历</field>
+            <field name="category_id" ref="amos_menu"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record model="res.groups"  id="amos_admin">
+            <field name="name">系统管理员</field>
+            <field name="users" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+    </data>
+</odoo>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record model="ir.ui.view" id="odoo_res_users_groups_form_inherit">
+            <field name="name">res.users.groups.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="button_groups"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-group"
+                            string="添加全部权限"
+                            groups="base.group_erp_manager"
+                    >
+                    </button>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

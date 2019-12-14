@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="odoo_res_company_ratio_form_inherit">
+            <field name="name">res.company.ratio.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='o_address_format']" position="replace">
+                    <div class="o_address_format">
+                        <field name="state_id" class="o_address_city" placeholder="省"
+                               options="{&quot;no_open&quot;: True}"/>
+                        <field name="city_id" class="o_address_city" placeholder="市"
+                               options="{&quot;no_open&quot;: True}"/>
+                        <field name="area_id" placeholder="区/县"
+                               options="{&quot;no_open&quot;: True}"/>
+                        <field name="zip" placeholder="邮编"/>
+                        <field name="street" placeholder="地址..." class="o_address_street"/>
+                        <field name="street2" placeholder="门牌号 2..." class="o_address_street"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_country_state_tree" model="ir.ui.view">
+        <field name="name">res.country.state.tree</field>
+        <field name="model">res.country.state</field>
+        <field name="arch" type="xml">
+            <tree string="省">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="a_z"/>
+                <field name="spelling"/>
+                <field name="country_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_res_country_state_form" model="ir.ui.view">
+        <field name="name">res.country.state.form</field>
+        <field name="model">res.country.state</field>
+        <field name="arch" type="xml">
+            <form string="省" class="o_sale_order">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="country_id"/>
+                        <field name="a_z" invisible="1"/>
+                        <field name="spelling" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_res_country_state_filter" model="ir.ui.view">
+        <field name="name">res.country.state.select</field>
+        <field name="model">res.country.state</field>
+        <field name="arch" type="xml">
+            <search string="省">
+                <field name="name"
+                       filter_domain="['|','|','|',('name','ilike',self),('code','ilike',self),('a_z','ilike',self),('spelling','ilike',self)]"/>
+                <separator/>
+                <field name="name"/>
+                <separator/>
+                <field name="code"/>
+                <separator/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_res_country_state" model="ir.actions.act_window">
+        <field name="name">省</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.country.state</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_res_country_state_tree"/>
+        <field name="search_view_id" ref="view_res_country_state_filter"/>
+        <field name="help">省份管理</field>
+    </record>
+
+    <menuitem action="action_res_country_state" name="省" id="menu_action_res_country_state"
+              parent="amos_base.menu_city" sequence="1"/>
+
+    <record id="view_res_city_tree" model="ir.ui.view">
+        <field name="name">res.city.tree</field>
+        <field name="model">res.city</field>
+        <field name="arch" type="xml">
+            <tree string="市">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="country_id"/>
+                <field name="a_z"/>
+                <field name="spelling"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_res_city_form" model="ir.ui.view">
+        <field name="name">res.city.form</field>
+        <field name="model">res.city</field>
+        <field name="arch" type="xml">
+            <form string="省">
+                <group>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="country_id"/>
+                    <field name="a_z" invisible="1"/>
+                    <field name="spelling" invisible="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_res_city_filter" model="ir.ui.view">
+        <field name="name">res.city.select</field>
+        <field name="model">res.city</field>
+        <field name="arch" type="xml">
+            <search string="市">
+                <field name="name"
+                       filter_domain="['|','|','|',('name','ilike',self),('code','ilike',self),('a_z','ilike',self),('spelling','ilike',self)]"/>
+                <separator/>
+                <field name="name"/>
+                <separator/>
+                <field name="code"/>
+                <separator/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_res_city" model="ir.actions.act_window">
+        <field name="name">市</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.city</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_res_city_tree"/>
+        <field name="search_view_id" ref="view_res_city_filter"/>
+        <field name="help">市管理</field>
+    </record>
+
+    <menuitem action="action_res_city" name="市" id="menu_action_res_city"
+              parent="amos_base.menu_city" sequence="2"/>
+
+    <record id="view_res_area_tree" model="ir.ui.view">
+        <field name="name">res.area.tree</field>
+        <field name="model">res.area</field>
+        <field name="arch" type="xml">
+            <tree string="区/县">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="country_id"/>
+                <field name="a_z"/>
+                <field name="spelling"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_res_area_form" model="ir.ui.view">
+        <field name="name">res.area.form</field>
+        <field name="model">res.area</field>
+        <field name="arch" type="xml">
+            <form string="区/县">
+                <group>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="country_id"/>
+                    <field name="a_z" invisible="1"/>
+                    <field name="spelling" invisible="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_res_area_filter" model="ir.ui.view">
+        <field name="name">res.area.select</field>
+        <field name="model">res.area</field>
+        <field name="arch" type="xml">
+            <search string="区/县">
+                <field name="name"
+                       filter_domain="['|','|','|',('name','ilike',self),('code','ilike',self),('a_z','ilike',self),('spelling','ilike',self)]"/>
+                <separator/>
+                <field name="name"/>
+                <separator/>
+                <field name="code"/>
+                <separator/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_res_area" model="ir.actions.act_window">
+        <field name="name">区/县</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.area</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_res_area_tree"/>
+        <field name="search_view_id" ref="view_res_area_filter"/>
+        <field name="help">区/县管理</field>
+    </record>
+
+    <menuitem action="action_res_area" name="区/县" id="menu_action_res_area"
+              parent="amos_base.menu_city" sequence="3"/>
+
+</odoo>
