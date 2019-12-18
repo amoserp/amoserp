@@ -17,7 +17,7 @@
     'sequence': 10000,
     'author': 'Amos',
     'website': 'http://www.100china.cn',
-    'depends': ['base', 'web','contacts','calendar'],
+    'depends': ['base', 'web','contacts','calendar', 'portal', 'utm'],
     'version': '1.0',
     'data': [
         'data/city_data.xml',

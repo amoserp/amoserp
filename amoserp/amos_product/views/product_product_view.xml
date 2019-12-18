@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="amos_product_product_form">
+            <field name="name">product.product.form</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <form string="产品">
+                    <field name="id" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                    <header>
+                        <button name='button_done_draft' groups="amos_product.product_manager" states='启用中,已废弃'
+                                string='重置新建' type='object' class='oe_highlight'/>
+                        <button name='button_loading' groups="amos_product.product_manager" states='新建' string='提交'
+                                type='object' class='oe_highlight'/>
+                        <button name='button_done' groups="amos_product.product_manager" states='启用中' string='废弃'
+                                type='object' class='oe_highlight'/>
+                        <field name='state' widget='statusbar' statusbar_visible="新建,启用中,已废弃"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object"
+                                    class="oe_stat_button" icon="fa-archive">
+                            </button>
+                        </div>
+
+                        <group name="product" col="12">
+
+                            <group colspan="4" col="2" string="产品信息">
+                                <field name="default_code" required="1"/>
+                                <field name="name"/>
+                                <field name="specification"/>
+                                <field name="categ_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="type"/>
+                                <field name="brand_type" widget="radio" options="{'horizontal': true}"/>
+                                <label for="set_field1" string="自设栏(一/二)"/>
+                                <div class="o_row">
+                                    <field name="set_field1" placeholder="自设栏(一)"/>
+                                    <field name="set_field2" placeholder="自设栏(二)"/>
+                                </div>
+                            </group>
+                            <group colspan="4" col="2" string="单位/属性">
+                                <field name="uom_id"
+                                       options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <label for="in_uom_id" string="内包装单位" groups="amos_product.group_multi_uom"/>
+                                <div class="o_row" groups="amos_product.group_multi_uom">
+                                    <field name="in_uom_id" placeholder="单位"
+                                           options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                    <field name="in_uom_qty" placeholder="数量" />
+                                </div>
+                                
+                                
+                                
+                                <label for="out_uom_id" string="外包装单位" groups="amos_product.group_multi_uom"/>
+                                <div class="o_row" name="div_product_uom" groups="amos_product.group_multi_uom">
+                                    <field name="out_uom_id" placeholder="单位"
+                                           options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                    <field name="out_uom_qty" placeholder="数量" />
+                                </div>
+
+                                <field name="create_date" widget="date" string="建档日期" readonly='1'/>
+                                <field name="is_assets"/>
+                                <field name="mnemonic_code"/>
+                                <field name="stop_date" attrs="{'invisible': [('active', '!=', False)]}"/>
+                            </group>
+
+                            <group colspan="4" col="2" string="其它信息">
+                                <field name="supplierinfo"
+                                       options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="rack_number" placeholder="5排3层2列16格"/>
+                                <field name="stagnant_period"/>
+
+
+                                <field name="abc" widget="radio" options="{'horizontal': true}"/>
+
+                                <field name="warranty" invisible="1"/>
+                                <field name="barcode"/>
+                                <field name="is_verify"/>
+                            </group>
+
+
+                        </group>
+
+
+                        <notebook name="page">
+                            <page string="基本" name="product_price" invisible="0">
+                                <group name="sale_product_price" colspan="12" col="4">
+                                    <group>
+                                        <group>
+                                            <field name="sale_price"/>
+                                            <field name="purchase_price"/>
+                                        </group>
+                                        <group>
+                                            <field name="warranty"/>
+                                            <field name="stop_date"/>
+                                        </group>
+                                    </group>
+
+                                </group>
+                            </page>
+                            <page string="成本" name="product_price" invisible="0">
+
+                                <group>
+                                    <group>
+                                        <field name="initial_cost"/>
+                                        <field name="average_cost"/>
+                                    </group>
+                                    <group>
+                                        <field name="recent_purchase_date"/>
+                                        <field name="recent_purchase_in_date"/>
+                                        <field name="recent_sale_out_date"/>
+                                        <field name="recent_allocation_date"/>
+                                    </group>
+                                </group>
+
+                            </page>
+                            <page string="图片">
+                                <group>
+                                    <group>
+                                        <field name="image_1920" widget="image" class="oe_avatar"
+                                               options="{'preview_image': 'image_128'}"/>
+
+
+                                    </group>
+                                    <group></group>
+                                </group>
+                            </page>
+                            <page string="其它">
+                                <group>
+                                    <group name="g2">
+                                        <field name="create_date" widget="date" string="建档日期" readonly='1'/>
+                                    </group>
+                                    <group name="g3">
+
+                                        <field name="user_id"
+                                               options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                        <field name="company_id" groups="base.group_multi_company"
+                                               options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                        <separator string="产品说明" colspan="2"/>
+                        <field name="content"/>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="amos_product_product_tree">
+            <field name="name">product.product.tree</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree string="产品" name="product_product_tree" decoration-bf="message_needaction==True">
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="default_code"/>
+                    <field name="name"/>
+                    <field name="specification"/>
+                    <field name="categ_id"/>
+                    <field name="uom_id"/>
+                    <field name="user_id"/>
+                    <field name="create_date" widget="date" string="建档日期"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_search_product_product" model="ir.ui.view">
+            <field name="name">product.product.search</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <search string="查询">
+                    <field name="name" string="单据"
+                           filter_domain="['|','|','|','|',('name','ilike',self),('categ_id','ilike',self),('default_code','ilike',self),('a_z','ilike',self),('specification','ilike',self)]"/>
+
+                    <filter string="我的管理的产品" domain="[('user_id','=',uid)]" name="my_orders_filter"/>
+                    <filter string="已归档" name="active_yes" domain="[('active','=',False)]"/>
+                    <separator/>
+                    <filter string="新建" name="state1" domain="[('state','=','新建')]"/>
+                    <filter string="启用中" name="state2" domain="[('state','=','启用中')]"/>
+                    <filter string="已废弃" name="state3" domain="[('state','=','已废弃')]"/>
+                    <separator/>
+                    <group expand="0" string="分组">
+                        <filter string="ABC" name="abc" domain="[]" context="{'group_by':'abc'}"/>
+                        <filter string="产品经理" name="user_id" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="创建日期" name="create_date" domain="[]" context="{'group_by':'create_date'}"/>
+                        <filter string="产品来源" name="brand_type" domain="[]" context="{'group_by':'brand_type'}"/>
+                        <filter string="单据状态" name="state" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="产品类型" name="type" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="主要供应商" name="supplierinfo" domain="[]" context="{'group_by':'supplierinfo'}"/>
+                        <filter string="公司" name="company_id" domain="[]" context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="amos_product_product_act" model="ir.actions.act_window">
+            <field name="name">产品</field>
+            <field name="res_model">product.product</field>
+            <field name="limit">20</field>
+            <field name="search_view_id" ref="view_search_product_product"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    创建产品
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem action="amos_product_product_act" id="menu_amos_product_product_act" sequence="10"
+                  groups="amos_product.product_menu"
+                  parent="amos_base.menu_1"/>
+
+
+        <record id="amos_product.amos_product_product_act" model="ir.actions.act_window">
+            <field name="name">产品</field>
+            <field name="res_model">product.product</field>
+            <field name="limit">20</field>
+            <field name="search_view_id" ref="view_search_product_product"/>
+            <field name="context"
+                   eval="{'global_search_menu': ref('amos_base.menu_1'),'global_search_actions': ref('amos_product.amos_product_product_act')}"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    创建产品
+                </p>
+            </field>
+        </record>
+
+        <record id="action_amos_product_product_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="amos_product_product_tree"/>
+            <field name="act_window_id" ref="amos_product_product_act"/>
+        </record>
+        <record id="action_amos_product_product_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="amos_product_product_form"/>
+            <field name="act_window_id" ref="amos_product_product_act"/>
+        </record>
+
+
+        <record model="ir.ui.view" id="amos_product_product_tree_add">
+            <field name="name">product.product.tree</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree string="产品" name="product_product_tree" create="false" edit="false" delete="false"
+                      js_class="product_product_button_list_view">
+                    <field name="default_code"/>
+                    <field name="name"/>
+                    <field name="specification"/>
+                    <field name="categ_id"/>
+                    <field name="user_id"/>
+                    <field name="create_date" widget="date" string="建档日期"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

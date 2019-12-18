@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="product_groups" model="ir.module.category">
+            <field name="name">产品</field>
+            <field name="sequence">202</field>
+        </record>
+
+        <record id="product_uom" model="res.groups">
+            <field name="name">产品-单位</field>
+            <field name="category_id" ref="amos_product.product_groups"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+         <record id="group_multi_uom" model="res.groups">
+            <field name="name">多单位</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record id="product_category" model="res.groups">
+            <field name="name">产品-分类</field>
+            <field name="category_id" ref="amos_product.product_groups"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="product_manager" model="res.groups">
+            <field name="name">产品-经理</field>
+            <field name="category_id" ref="amos_product.product_groups"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="product_menu" model="res.groups">
+            <field name="name">菜单-产品</field>
+            <field name="category_id" ref="amos_base.amos_menu"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="know_price" model="res.groups">
+            <field name="name">仓库隐藏价格</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="product_visible" model="res.groups">
+            <field name="name">产品可见</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+
+        <record id="stock_visible" model="res.groups">
+            <field name="name">产品存货信息</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="group_sale_price" model="res.groups">
+            <field name="name">产品销售公开价格</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="group_purchase_price" model="res.groups">
+            <field name="name">产品采购价格</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_form_product_export_import_wizard" model="ir.ui.view">
+            <field name="name">上传Excel</field>
+            <field name="model">product.export.import.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Import">
+
+                    <group colspan="2">
+                        <field name="files"/>
+                    </group>
+                    <footer>
+                        <button name="import_product" string="确认" type="object" class="oe_highlight"/>
+                        or
+                        <button string="取消" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="actions_product_export_import_wizard" model="ir.actions.act_window">
+            <field name="name">产品导入</field>
+            <field name="res_model">product.export.import.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="limit">20</field>
+            <field name="view_id" ref="view_form_product_export_import_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+        <act_window name="产品导入"
+                    res_model="product.export.import.wizard"
+                    src_model="product.product"
+                    target="new"
+                    key2="client_action_multi"
+                    id="menu_product_export_import_wizard"
+                />
+    </data>
+</odoo>
+

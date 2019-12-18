@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- JS assets -->
+        <template id="product_product_button_assets_backend" inherit_id="web.assets_backend" name="Button assets">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/amos_product/static/src/js/wizard.js"></script>
+            </xpath>
+        </template>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_form_product_category" model="ir.ui.view">
+            <field name="name">product.category.form</field>
+            <field name="model">product.category</field>
+            <field name="arch" type="xml">
+                <form string="产品分类">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="sequence"/>
+                            </group>
+                            <group>
+                                <field name="code"/>
+
+                            </group>
+                        </group>
+
+                        <separator string="小类" colspan="2"/>
+                        <field name="child_id">
+                            <tree string="小类" editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="name"/>
+                                <field name="code"/>
+                            </tree>
+                        </field>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_tree_product_category" model="ir.ui.view">
+            <field name="name">product.category.tree</field>
+            <field name="model">product.category</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="产品分类">
+                    <field name="sequence" widget="handle"/>
+                    <field name="complete_name"/>
+                    <field name="code"/>
+                    <field name="product_count"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_product_category" model="ir.actions.act_window">
+            <field name="name">产品分类</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+            <field name="domain">[('parent_id', '=', False)]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    创建商品分类管理
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="产品分类" id="menu_product_category" parent="amos_base.menu_1_100"
+                  groups="amos_product.product_category" action="action_product_category" sequence="1"/>
+
+
+    </data>
+</odoo>
