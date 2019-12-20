@@ -16,7 +16,7 @@
     'summary': '一键安装！',
     'category': '基础',
     'sequence': 0,
-    'author': 'MyERP',
+    'author': 'Amos',
     'website': 'http://www.100china.cn',
     'depends': [
         'e_ad',
