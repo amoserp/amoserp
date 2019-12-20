@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="stock_picking_form">
+        <field name="name">stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="arch" type="xml">
+            <form string="仓库出入库单">
+                <header>
+                    <field name="id" invisible="1"/>
+                    <field name="picking_type_code" invisible="1"/>
+                    <button name='button_loading_draft' groups="amos_stock.stock_manager" states='待审批' string='重置新建'
+                            type='object' class='oe_highlight'/>
+                    <button name='button_done_draft' groups="amos_stock.stock_manager" states='已完成' string='重置新建'
+                            type='object' class='oe_highlight'/>
+                    <button name='button_loading' groups="amos_stock.stock_users" states='新建' string='提交'
+                            type='object' class='oe_highlight'/>
+                    <button name='button_done' groups="amos_stock.stock_manager" states='待审批' string='审核'
+                            type='object' class='oe_highlight'/>
+
+
+                    <field name='state' widget='statusbar' statusbar_visible="新建,待审批,已完成"/>
+                </header>
+                <sheet>
+
+                    <div class="oe_button_box" name="button_box" attrs="{'invisible': [('state', '!=', '已完成')]}">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive"
+                                groups="amos_stock.stock_users">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <h1 class="d-none d-md-block">
+                        <field name="name" attrs="{'invisible': [('name','=','/')]}" readonly="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="partner_id" required="1" string="供应商" domain="[('supplier','=',True)]"
+                                   context="{'search_default_supplier':1, 'default_supplier':1, 'default_customer':1}"
+                                   options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                            <field name="user_id" string="采购员" required='1'
+                                   options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                            <field name="picking_type_id" required="1"
+                                   attrs="{'readonly': [('picking_type_id','!=',False)],'invisible': ['|',('picking_type_id', '=', False),('id', '=', False)]}"
+                                   options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+
+                            <field name="location_id" groups="amos_stock.group_stock_multi_locations"
+                                   attrs="{'readonly': [('location_id','!=',False)],'invisible': [('picking_type_code', '=', 'incoming')]}"/>
+                            <field name="location_dest_id" groups="amos_stock.group_stock_multi_locations"
+                                   attrs="{'readonly': [('location_dest_id','!=',False)],'invisible': [('picking_type_code', '=', 'outgoing')]}"/>
+
+
+                        </group>
+                        <group>
+                            <field name="date" readonly='1'/>
+                            <!--<field name="id_object"/>-->
+                            <field name="origin"/>
+                            <!--<field name="owner_id"/>-->
+                            <field name="create_uid" string="创建人" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="作业" name="page_card">
+                            <field name="move_lines"
+                                   context="{'picking_type_code': picking_type_code, 'default_picking_id': id, 'form_view_ref':'stock.view_move_picking_form', 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">
+
+                                <form string="Idea form">
+                                    <group>
+                                        <group>
+                                            <separator string="物资信息" colspan="2"/>
+                                            <field name="product_id"
+                                                   options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                            <field name="product_uom_qty"/>
+                                            <field name="product_uom"/>
+                                            <field name="price_unit" groups="amos_stock.know_price"/>
+                                            <field name="price_subtotal" groups="amos_stock.know_price"/>
+                                        </group>
+
+                                        <group>
+                                            <separator string="库位信息" colspan="2"/>
+                                            <field name="name"/>
+                                            <field name="warehouse_id"/>
+                                        </group>
+
+                                        <notebook colspan="4">
+                                            <page string="备注">
+                                                <field name="note" nolabel="1"/>
+                                            </page>
+                                        </notebook>
+                                    </group>
+                                </form>
+
+
+                                <tree string="出库明细" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name" invisible='1'/>
+                                    <field name="product_id" required='1'
+                                           options="{'no_create_edit': True}"/>
+                                    <field name="product_uom_qty" required='1'/>
+                                    <field name="product_uom"/>
+                                    <field name="warehouse_id" groups="amos_stock.stock_location"
+                                           options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                    <button name="action_show_details" string="登记批次，包裹，位置" type="object" icon="fa-list"
+                                            options='{"warn": true}'/>
+
+                                    <!--<field name="location_id"/>-->
+                                    <!--<field name="location_dest_id"/>-->
+                                </tree>
+                            </field>
+                            <field name="note" placeholder="暂无备注信息"/>
+                        </page>
+
+                        <page string="其它">
+                            <group>
+                                <group>
+                                    <field name="stop_date" readonly='1'/>
+                                </group>
+                                <group>
+                                    <field name="company_id" options="{'no_create': True}" required='1'
+                                           groups="base.group_multi_company"/>
+
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+
+
+                </sheet>
+
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="stock_picking_calendar">
+        <field name="name">stock.picking.calendar</field>
+        <field name="model">stock.picking</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <calendar string="日历视图" date_start="scheduled_date" color="partner_id">
+                <field name="origin"/>
+                <field name="picking_type_id"/>
+                <field name="partner_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="stock_picking_tree">
+        <field name="name">stock.picking.tree</field>
+        <field name="model">stock.picking</field>
+        <field name="arch" type="xml">
+            <tree string="仓库出入库单" decoration-bf="message_needaction==True" decoration-info="state == '新建'"
+                  decoration-danger="state == '待审批'" decoration-muted="state == '已完成'">
+                <field name="message_needaction" invisible="1"/>
+                <field name="name"/>
+                <field name="location_dest_id"/>
+                <field name="partner_id" string="供应商"/>
+                <field name="date"/>
+                <field name="user_id" string="采购员"/>
+                <field name="stop_date" widget="date"/>
+                <field name="create_uid" string="创建人" readonly="1"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="stock_picking_search" model="ir.ui.view">
+        <field name="name">stock.picking.internal.search</field>
+        <field name="model">stock.picking</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" string=""
+                       filter_domain="['|',('name','ilike', self),('origin','ilike',self)]"/>
+
+                <separator/>
+                <filter string="我创建的单据" domain="[('create_uid','=',uid)]" name="my_orders_filter"/>
+                <separator/>
+                <filter name="late" string="迟到"
+                        domain="[('scheduled_date','&lt;', time.strftime('%%Y-%%m-%%d %%H:%%M:%%S'))]"
+                        help="Pickings that are late on scheduled time"/>
+                <separator/>
+                <filter name="backorder" string="欠单" domain="[('backorder_id','!=', False)]"
+                        help="Remaining parts of picking partially processed"/>
+                <separator/>
+                <filter string="我的任务" name="activities_my"
+                        domain="[('activity_ids.user_id', '=', uid)]"/>
+                <separator/>
+                <filter string="逾期任务" name="activities_overdue"
+                        domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                        help="Show all records which has next action date is before today"/>
+                <filter string="今天任务" name="activities_today"
+                        domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="未来任务" name="activities_upcoming_all"
+                        domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
+                        ]"/>
+                <field name="partner_id" filter_domain="[('partner_id','child_of',self)]"/>
+                <field name="product_id"/>
+                <field name="picking_type_id"/>
+                <field name="group_id"/>
+                <separator/>
+                <filter string="新建" name="state1" domain="[('state','=','新建')]"/>
+                <filter string="待审批" name="state2" domain="[('state','=','待审批')]"/>
+                <filter string="仓库" name="state3" domain="[('state','=','仓库')]"/>
+                <filter string="已完成" name="state4" domain="[('state','=','已完成')]"/>
+                <separator/>
+                <group expand="0" string="分组">
+                    <filter string="状态" name="status" domain="[]" context="{'group_by':'state'}"/>
+                    <filter string="创建日期" name="order_date" domain="[]" context="{'group_by':'date'}"/>
+                    <filter string="预计处理日期" name="expected_date" domain="[]"
+                            context="{'group_by': 'scheduled_date'}"/>
+                    <filter string="来源" name="origin" domain="[]" context="{'group_by':'origin'}"/>
+                    <filter name="picking_type" string="作业类型" domain="[]"
+                            context="{'group_by':'picking_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="stock_picking_all" model="ir.actions.act_window">
+        <field name="name">全部</field>
+        <field name="res_model">stock.picking</field>
+        <field name="type">ir.actions.act_window</field>
+
+        <field name="view_mode">tree,kanban,form,calendar</field>
+        <field name="limit">20</field>
+        <field name="domain"></field>
+        <field name="context">{
+            'search_default_picking_type_id': [active_id],
+            'default_picking_type_id': active_id,
+            'contact_display': 'partner_address',
+            }
+        </field>
+        <field name="search_view_id" ref="stock_picking_search"/>
+        <field name="view_id" ref="stock_picking_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                全部单据
+            </p>
+        </field>
+    </record>
+
+
+    <record id="action_picking_tree_draft1" model="ir.actions.act_window">
+        <field name="name">新建</field>
+        <field name="res_model">stock.picking</field>
+        <field name="type">ir.actions.act_window</field>
+
+        <field name="view_mode">tree,kanban,form,calendar</field>
+        <field name="limit">20</field>
+        <field name="domain"></field>
+        <field name="context">{
+            'search_default_picking_type_id': [active_id],
+            'default_picking_type_id': active_id,
+            'contact_display': 'partner_address',
+            'search_default_draft1': 1,
+            }
+        </field>
+        <field name="search_view_id" ref="stock_picking_search"/>
+        <field name="view_id" ref="stock_picking_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                单据
+            </p>
+        </field>
+    </record>
+
+    <record id="action_picking_tree_draft2" model="ir.actions.act_window">
+        <field name="name">待审批</field>
+        <field name="res_model">stock.picking</field>
+        <field name="type">ir.actions.act_window</field>
+
+        <field name="view_mode">tree,kanban,form,calendar</field>
+        <field name="limit">20</field>
+        <field name="domain"></field>
+        <field name="context">{
+            'search_default_picking_type_id': [active_id],
+            'default_picking_type_id': active_id,
+            'contact_display': 'partner_address',
+            'search_default_draft2': 1,
+            }
+        </field>
+        <field name="search_view_id" ref="stock_picking_search"/>
+        <field name="view_id" ref="stock_picking_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                单据
+            </p>
+        </field>
+    </record>
+
+    <record id="action_picking_tree_draft3" model="ir.actions.act_window">
+        <field name="name">仓库</field>
+        <field name="res_model">stock.picking</field>
+        <field name="type">ir.actions.act_window</field>
+
+        <field name="view_mode">tree,kanban,form,calendar</field>
+        <field name="limit">20</field>
+        <field name="domain"></field>
+        <field name="context">{
+            'search_default_picking_type_id': [active_id],
+            'default_picking_type_id': active_id,
+            'contact_display': 'partner_address',
+            'search_default_draft3': 1,
+            }
+        </field>
+        <field name="search_view_id" ref="stock_picking_search"/>
+        <field name="view_id" ref="stock_picking_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                单据
+            </p>
+        </field>
+    </record>
+
+    <record id="action_picking_tree_draft4" model="ir.actions.act_window">
+        <field name="name">已完成</field>
+        <field name="res_model">stock.picking</field>
+        <field name="type">ir.actions.act_window</field>
+
+        <field name="view_mode">tree,kanban,form,calendar</field>
+        <field name="limit">20</field>
+        <field name="domain"></field>
+        <field name="context">{
+            'search_default_picking_type_id': [active_id],
+            'default_picking_type_id': active_id,
+            'contact_display': 'partner_address',
+            'search_default_draft4': 1,
+            }
+        </field>
+        <field name="search_view_id" ref="stock_picking_search"/>
+        <field name="view_id" ref="stock_picking_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                单据
+            </p>
+        </field>
+    </record>
+
+
+    <record id="action_stock_picking_all_a1" model="ir.actions.act_window.view">
+        <field eval="10" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="stock_picking_tree"/>
+        <field name="act_window_id" ref="stock_picking_all"/>
+    </record>
+
+    <record id="action_stock_picking_all_a2" model="ir.actions.act_window.view">
+        <field eval="20" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="stock_picking_form"/>
+        <field name="act_window_id" ref="stock_picking_all"/>
+    </record>
+
+
+</odoo>

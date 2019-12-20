@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="odoo_form_e_ad" model="ir.ui.view">
+            <field name="name">e.ad.form</field>
+            <field name="model">e.ad</field>
+            <field name="arch" type="xml">
+                <form string="表单">
+                    <field name="id" invisible="1"/>
+                    <header>
+                        <button name='action_draft' states='下架' string='重置' type='object'
+                                class='oe_highlight'/>
+                        <button name='action_done' states='新建' string='上架' type='object'
+                                class='oe_highlight'/>
+                        <button name='action_cancel' states='上架' string='下架' type='object'
+                                class='oe_highlight'/>
+                        <field name='state' widget='statusbar' statusbar_visible="新建,上架,下架"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name" required='1'/>
+                                <field name="location" required='1' widget="radio" options="{'horizontal': true}"/>
+
+                            </group>
+                            <group>
+                                <field name="type" widget="radio" options="{'horizontal': true}"/>
+                            </group>
+                        </group>
+
+                        <notebook colspan="4">
+                            <page string="产品图片" autofocus="autofocus">
+                                <field name="attachment_ids" mode="kanban">
+                                    <kanban>
+                                        <field name="id"/>
+                                        <field name="mimetype"/>
+                                        <field name="type"/>
+                                        <field name="create_uid"/>
+                                        <field name="url"/>
+                                        <field name="type"/>
+                                        <field name="create_date"/>
+                                        <field name="name"/>
+                                        <field name="res_name"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_global_area o_kanban_attachment oe_kanban_global_click">
+                                                    <div class="o_kanban_image">
+                                                        <div class="o_kanban_image_wrapper">
+                                                            <t t-set="webimage"
+                                                               t-value="new RegExp('image.*(gif|jpeg|jpg|png)').test(record.mimetype.value)"/>
+                                                            <div t-if="record.type.raw_value == 'url'"
+                                                                 class="o_url_image fa fa-link fa-3x text-muted"/>
+                                                            <img t-elif="webimage"
+                                                                 t-attf-src="/web/image/#{record.id.raw_value}?field=thumbnail"
+                                                                 width="100" height="100" alt="Document"
+                                                                 class="o_attachment_image"/>
+                                                            <div t-else="!webimage" class="o_image o_image_thumbnail"
+                                                                 t-att-data-mimetype="record.mimetype.value"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="o_kanban_details">
+                                                        <div class="o_kanban_details_wrapper">
+                                                            <div t-att-title="record.datas_fname.raw_value"
+                                                                 class="o_kanban_record_title">
+                                                                <t t-if="record.type.raw_value == 'url'">
+                                                                    <field name="name" class="o_text_overflow"/>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <field name="datas_fname" class="o_text_overflow"/>
+                                                                </t>
+                                                            </div>
+                                                            <div class="o_kanban_record_body">
+                                                                <t t-if="record.res_model_name.raw_value">
+                                                                    <strong>
+                                                                        <field name="res_model_name"/>
+                                                                    </strong>
+                                                                    <t t-if="record.res_name.raw_value">
+                                                                        <span t-att-title="record.res_name.raw_value">:
+                                                                            <field name="res_name"/>
+                                                                        </span>
+                                                                    </t>
+                                                                </t>
+                                                                <t t-elif="record.type.raw_value == 'url'">
+                                                                    <span class="o_document_url">
+                                                                        <i class="fa fa-globe"/>
+                                                                        <field name="url" widget="url"/>
+                                                                    </span>
+                                                                </t>
+                                                                <samp t-else="" class="text-muted"></samp>
+                                                            </div>
+                                                            <div class="o_kanban_record_bottom">
+                                                                <time class="oe_kanban_bottom_left">
+                                                                    <field name="create_date" widget="date"/>
+                                                                </time>
+                                                                <div class="oe_kanban_bottom_right">
+                                                                    <img t-att-src="kanban_image('res.users', 'image_small', record.create_uid.raw_value)"
+                                                                         t-att-data-member_id="record.create_uid.raw_value"
+                                                                         t-att-alt="record.create_uid.raw_value"
+                                                                         width="32"
+                                                                         height="32" class="oe_kanban_avatar"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                    <form string="图片">
+                                        <sheet>
+                                            <label for="name" class="oe_edit_only"/>
+                                            <h1>
+                                                <field name="name"/>
+                                            </h1>
+                                            <group>
+                                                <group>
+                                                    <field name="type"/>
+                                                    <field name="datas" filename="datas_fname"
+                                                           attrs="{'invisible':[('type','=','url')]}"/>
+                                                    <field name="datas_fname" invisible="1"
+                                                           attrs="{'invisible':[('type','=','url')]}"
+                                                           class="oe_inline oe_right"/>
+                                                    <field name="url" widget="url"
+                                                           attrs="{'invisible':[('type','=','binary')]}"/>
+                                                    <field name="mimetype" groups="base.group_no_one"/>
+                                                </group>
+                                                <group name="description_group" string="描述"
+                                                       groups="base.group_no_one" colspan="4">
+                                                    <field name="description" nolabel="1"/>
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                                <field name="param"/>
+                            </page>
+
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="odoo_tree_e_ad" model="ir.ui.view">
+            <field name="name">e.ad.tree</field>
+            <field name="model">e.ad</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="列表">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="odoo_action_e_ad" model="ir.actions.act_window">
+            <field name="name">广告</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">e.ad</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    创建单据.
+                </p>
+                <p>
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="odoo_action_e_ad" id="menu_e_ad" parent="e_base.menu_e_base" sequence="30"/>
+
+    </data>
+</odoo>

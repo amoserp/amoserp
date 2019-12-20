@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_stock_inventory" model="ir.sequence">
+            <field name="name">盘点</field>
+            <field name="code">stock.inventory</field>
+            <field name="prefix">PD%(year)s%(month)s%(day)s</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_stock_picking_losses" model="ir.sequence">
+            <field name="name">盘亏</field>
+            <field name="code">stock.picking.losses</field>
+            <field name="prefix">PK%(year)s%(month)s%(day)s</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_stock_picking_overage" model="ir.sequence">
+            <field name="name">盘盈</field>
+            <field name="code">stock.picking.overage</field>
+            <field name="prefix">PY%(year)s%(month)s%(day)s</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        
+
+
+        <record id="seq_stock_picking_in_return" model="ir.sequence">
+            <field name="name">采购退货单</field>
+            <field name="code">stock.picking.in.return</field>
+            <field name="prefix">WHOUT%(year)s%(month)s%(day)s</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+        <record id="seq_stock_picking_out_other" model="ir.sequence">
+            <field name="name">其它出库单</field>
+            <field name="code">stock.picking.out.other</field>
+            <field name="prefix">OUT%(year)s%(month)s%(day)s</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_stock_picking_in_other" model="ir.sequence">
+            <field name="name">其它入库单</field>
+            <field name="code">stock.picking.in.other</field>
+            <field name="prefix">IN%(year)s%(month)s%(day)s</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_stock_picking_out" model="ir.sequence">
+            <field name="name">领用单</field>
+            <field name="code">stock.picking.out</field>
+            <field name="prefix">OUT%(year)s%(month)s%(day)s</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_stock_picking_in" model="ir.sequence">
+            <field name="name">入库单</field>
+            <field name="code">stock.picking.in</field>
+            <field name="prefix">IN%(year)s%(month)s%(day)s</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_stock_picking_scrap" model="ir.sequence">
+            <field name="name">报废单</field>
+            <field name="code">stock.picking.scrap</field>
+            <field name="prefix">BF%(year)s%(month)s%(day)s</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_stock_picking_return" model="ir.sequence">
+            <field name="name">退料单</field>
+            <field name="code">stock.picking.return</field>
+            <field name="prefix">R%(year)s%(month)s%(day)s</field>
+            <field name="padding">2</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+        <record id="seq_stock_picking_lose" model="ir.sequence">
+            <field name="name">丢失单</field>
+            <field name="code">stock.picking.lose</field>
+            <field name="prefix">DS%(year)s%(month)s%(day)s</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_stock_warehouse_orderpoint" model="ir.sequence">
+            <field name="name">订货规则</field>
+            <field name="code">stock.warehouse.orderpoint</field>
+            <field name="prefix">OP</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+        <record id="seq_stock_warehouse" model="ir.sequence">
+            <field name="name">仓库</field>
+            <field name="code">stock.warehouse</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+        <record id="seq_stock_tested_out_in" model="ir.sequence">
+            <field name="name">送检单</field>
+            <field name="code">stock.picking.tested.out</field>
+            <field name="prefix">Test-IN%(year)s%(month)s%(day)s</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+         <record id="seq_stock_tested_out" model="ir.sequence">
+            <field name="name">送检单</field>
+            <field name="code">stock.picking.tested.in</field>
+            <field name="prefix">Test-OUT%(year)s%(month)s%(day)s</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+         <record id="seq_stock_lend_out" model="ir.sequence">
+            <field name="name">借出单</field>
+            <field name="code">stock.lend.out</field>
+            <field name="prefix">LO%(year)s%(month)s%(day)s</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_stock_lend_out_in" model="ir.sequence">
+            <field name="name">借出还入单</field>
+            <field name="code">stock.lend.out.in</field>
+            <field name="prefix">LOI%(year)s%(month)s%(day)s</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_stock_picking_tested" model="ir.sequence">
+            <field name="name">不合格处理单</field>
+            <field name="code">stock.picking.tested</field>
+            <field name="prefix">NO%(year)s%(month)s</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+        <!--<record id="seq_stock_picking_assets_in" model="ir.sequence">-->
+            <!--<field name="name">固定资产入库单</field>-->
+            <!--<field name="code">stock.picking.assets.in</field>-->
+            <!--<field name="prefix">AIN%(year)s%(month)s%(day)s</field>-->
+            <!--<field name="padding">4</field>-->
+            <!--<field name="company_id" eval="False"/>-->
+        <!--</record>-->
+
+
+    </data>
+</odoo>

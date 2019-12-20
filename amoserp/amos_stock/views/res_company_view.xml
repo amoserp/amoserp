@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="res_company_warehouse_id_view_form_inherit">
+            <field name="name">res.company.warehouse_id.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[@name='social_media']" position="after">
+                    <group string="默认库位">
+                        <field name="warehouse_id"
+                               options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                        <field name="location_dest_id"
+                               options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                    </group>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

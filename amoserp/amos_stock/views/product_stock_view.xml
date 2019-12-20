@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="odoo_product_stock_tree" model="ir.ui.view">
+            <field name="name">product.stock.tree</field>
+            <field name="model">product.stock</field>
+            <field name="arch" type="xml">
+                <tree string="存货信息">
+                    <field name="name" readonly='1'/>
+                    <field name="warehouse_id" readonly='1'/>
+                    <field name="company_id" readonly='1'/>
+                    <field name="uom_id" readonly='1'/>
+                    <field name="location_qty" readonly='1'/>
+                    <field name="virtual_available" readonly='1'/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="view_search_product_stock" model="ir.ui.view">
+            <field name="name">product.stock.search</field>
+            <field name="model">product.stock</field>
+            <field name="arch" type="xml">
+                <search string="查询">
+                    <field name="name" string="单据" filter_domain="[('name','ilike',self)]"/>
+                    <separator/>
+                    <group expand="0" string="分组">
+                        <filter string="仓库" name="warehouse_id" domain="[]" context="{'group_by':'warehouse_id'}"/>
+                        <filter string="公司" name="company_id" domain="[]" context="{'group_by':'company_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+
+
+
+
+        <record id="action_product_stock" model="ir.actions.act_window">
+            <field name="name">存货信息</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.stock</field>
+
+            <field name="limit">20</field>
+            <field name="search_view_id" ref="view_search_product_stock"/>
+            <field name="help">存货信息</field>
+        </record>
+
+
+        <!--<menuitem action="action_product_stock" name="存货信息" id="menu_product_stock"-->
+                 <!--parent="amos_base.menu_product"  sequence="1" />-->
+    </data>
+</odoo>

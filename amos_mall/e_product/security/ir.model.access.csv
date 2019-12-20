@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_e_product_read,只读,model_e_product,base.group_user,1,0,0,0
+access_e_product_tag_read,只读,model_e_product_tag,base.group_user,1,0,0,0
+access_e_product_template_read,只读,model_e_product_template,base.group_user,1,0,0,0
+
+access_e_product_manager,产品经理,model_e_product,e_product.e_product_manager,1,1,1,1
+access_e_product_tag_manager,Tag,model_e_product_tag,e_product.e_product_manager,1,1,1,1

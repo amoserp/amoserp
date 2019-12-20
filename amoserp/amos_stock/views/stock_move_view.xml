@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_stock_move_operations" model="ir.ui.view">
+        <field name="name">stock.move.operations.form</field>
+        <field name="model">stock.move</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <form string="Move Detail">
+                <field name="state" invisible="1"/>
+                <field name="is_locked" invisible="1"/>
+                <field name="location_id" invisible="1"/>
+                <field name="location_dest_id" invisible="1"/>
+                <field name="picking_id" invisible="1"/>
+                <group>
+                    <group>
+                        <field name="product_id" readonly="1"/>
+                        <label for="product_uom_qty"/>
+                        <div class="o_row">
+                            <span>
+                                <field name="product_uom_qty" readonly="1" nolabel="1"/>
+                            </span>
+                            <span>
+                                <field name="product_uom" readonly="1" nolabel="1"/>
+                            </span>
+                        </div>
+
+
+                    </group>
+                </group>
+                <field name="move_line_ids" attrs="{'readonly': ['|', ('state', '=', '取消'), '&amp;', ('state', '=', '已审核'), ('is_locked', '=', True)]}" context="{'tree_view_ref': 'stock.view_stock_move_line_operation_tree', 'default_product_uom_id': product_uom, 'default_picking_id': picking_id, 'default_move_id': id, 'default_product_id': product_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}"/>
+                <footer class="oe_edit_only">
+                    <button string="确认" special="save" class="oe_highlight"/>
+                    <button string="取消" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

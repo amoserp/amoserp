@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="e_company_form_inherit">
+            <field name="name">res.company.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page" position="after">
+
+                    <page string="APP">
+
+                        <group>
+                            <group>
+                                <field name="customer_service"/>
+                                <field name="delivery_time"/>
+                                <field name="delivery_service"/>
+                            </group>
+                            <group>
+                                <field name="database_uuid"/>
+                            </group>
+                        </group>
+
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

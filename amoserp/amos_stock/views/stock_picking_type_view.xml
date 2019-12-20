@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+    <record id="stock_picking_type_kanban" model="ir.ui.view">
+        <field name="name">stock.picking.type.kanban</field>
+        <field name="model">stock.picking.type</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_emphasize_colors o_stock_kanban" create="0">
+                <field name="complete_name"/>
+                <field name="color"/>
+                <field name="code"/>
+                <field name="col_id"/>
+                <field name="count_picking_draft"/>
+                <field name="count_picking_waiting"/>
+                <field name="count_picking_admin"/>
+                <field name="count_picking_late"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-if="['incoming', 'outgoing', 'internal'].indexOf(record.code.raw_value) > -1"
+                             t-attf-class="#{kanban_color(record.color.raw_value)}" name="stock_picking">
+                            <div>
+                                <div t-attf-class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary">
+                                            <a type="object" name="get_stock_picking_all">
+                                                <field name="complete_name"/>
+                                            </a>
+                                        </div>
+                                        <div class="o_secondary">
+                                            <!--<field class="o_secondary" name="warehouse_id"/>-->
+                                        </div>
+                                    </div>
+                                    <!--<div class="o_kanban_manage_button_section">-->
+                                        <!--<a class="o_kanban_manage_toggle_button" href="#">-->
+                                            <!--<i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>-->
+                                        <!--</a>-->
+                                    <!--</div>-->
+
+                                </div>
+                                <div class="container o_kanban_card_content">
+                                    <div class="row">
+                                        <div class="col-4 o_kanban_primary_left">
+                                             <button name='open_stock_picking_type_wizard'  string='AAA' type='object'
+                                                                class="btn btn-primary"/>
+
+                                            <div t-if="record.count_picking_draft.raw_value > 0" class="row">
+                                                <button class="btn btn-primary" name="get_action_picking_tree_state1"
+                                                        type="object">
+                                                        <t t-esc="record.count_picking_draft.value"/>
+                                                        新建
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 o_kanban_primary_right">
+                                            <div t-if="record.count_picking_waiting.raw_value > 0" class="row">
+                                                <button class="btn btn-primary" name="get_action_picking_tree_state2"
+                                                        type="object">
+                                                        <t t-esc="record.count_picking_waiting.value"/>
+                                                        待审批
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 o_kanban_primary_right">
+                                            <div t-if="record.count_picking_admin.raw_value > 0" class="row">
+                                                <button class="btn btn-primary" name="get_action_picking_tree_state3"
+                                                        type="object">
+                                                        <t t-esc="record.count_picking_admin.value"/>
+                                                        仓库
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                    <div class="row">
+                                        <div class="col-6 o_kanban_card_manage_section o_kanban_manage_view">
+                                            <div role="menuitem" class="o_kanban_card_manage_title">
+                                                <span>视图</span>
+                                            </div>
+                                            <div role="menuitem">
+                                                <a name="get_stock_picking_all" type="object">全部</a>
+                                            </div>
+                                            <div role="menuitem">
+                                                <a name="get_action_picking_tree_state1" type="action">新建</a>
+                                            </div>
+                                            <div role="menuitem">
+                                                <a name="get_action_picking_tree_state2" type="object">待审批</a>
+                                            </div>
+                                            <div role="menuitem">
+                                                <a name="get_action_picking_tree_state3" type="object">仓库</a>
+                                            </div>
+                                            <div role="menuitem">
+                                                <a name="get_action_picking_tree_draft4" type="object">已完成</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 o_kanban_card_manage_section o_kanban_manage_new">
+                                            <div role="menuitem" class="o_kanban_card_manage_title">
+                                                <span>图表</span>
+                                            </div>
+                                            <div role="menuitem">
+                                                统计图
+                                            </div>
+                                            <div role="menuitem">
+                                                报表
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--<div t-if="widget.editable" class="o_kanban_card_manage_settings row">-->
+                                    <!--<div class="col-8" role="menuitem" aria-haspopup="true">-->
+                                    <!--<ul class="oe_kanban_colorpicker" data-field="color" role="menu"/>-->
+                                    <!--</div>-->
+                                    <!--<div role="menuitem" class="col-4 text-center">-->
+                                    <!--<a type="edit">设置</a>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="view_pickingtype_filter" model="ir.ui.view">
+        <field name="name">stock.picking.type.filter</field>
+        <field name="model">stock.picking.type</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <field name="sequence_id"/>
+                <field name="warehouse_id"/>
+                <filter string="已归档" name="inactive" domain="[('active','=',False)]"/>
+                <group expand="0" string="分组">
+                    <filter string="分栏" name="col_id" domain="[]" context="{'group_by': 'col_id'}"/>
+                    <filter string="作业类型" name="groupby_code" domain="[]" context="{'group_by': 'code'}"/>
+                    <filter string="仓库" name="groupby_warehouse_id" domain="[]"
+                            context="{'group_by': 'warehouse_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_picking_type_tree">
+        <field name="name">Operation types</field>
+        <field name="model">stock.picking.type</field>
+        <field name="arch" type="xml">
+            <tree string="Operation Types">
+                <field name="sequence" widget="handle"/>
+                <field name="complete_name"/>
+                <field name="name"/>
+                <field name="active" invisible="1"/>
+                <field name="warehouse_id"/>
+                <field name="sequence_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_picking_type_form">
+        <field name="name">Operation Types</field>
+        <field name="model">stock.picking.type</field>
+        <field name="arch" type="xml">
+            <form string="Operation Types">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="complete_name" required="1"/>
+                            <field name="sequence_id"/>
+                            <field name="warehouse_id" required='1' groups="amos_stock.group_stock_multi_warehouses"/>
+                            <field name="barcode"/>
+                            <field name="user_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                        </group>
+                        <group>
+                            <field name="code"/>
+                            <field name="type" widget="radio" options="{'horizontal': true}" required="1"/>
+                            <field attrs='{"invisible": [("code", "not in", ["incoming", "outgoing", "internal"])]}'
+                                   name="return_picking_type_id"/>
+                            <field name="show_operations"/>
+                            <field name="show_reserved" attrs="{'invisible': [('show_operations', '!=', False)]}"/>
+                            <field name="is_qty" />
+                        </group>
+                    </group>
+                    <group>
+                        <group attrs='{"invisible": [("code", "not in", ["incoming", "outgoing", "internal"])]}'
+                               string="追溯性" groups="amos_stock.group_production_lot">
+                            <field name="use_create_lots"/>
+                            <field name="use_existing_lots"/>
+                        </group>
+                        <group attrs='{"invisible": [("code", "not in", ["incoming", "outgoing", "internal"])]}'
+                               string="包裹" groups="amos_stock.group_tracking_lot">
+                            <field name="show_entire_packs"/>
+                        </group>
+                        <group string="位置" groups="amos_stock.group_stock_multi_locations">
+                            <field name="default_location_src_id"
+                                   attrs="{'required': [('code', 'in', ('internal', 'outgoing'))]}"/>
+                            <field name="default_location_dest_id"
+                                   attrs="{'required': [('code', 'in', ('internal', 'incoming'))]}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="stock_picking_type_action" model="ir.actions.act_window">
+        <field name="name">库存概览</field>
+        <field name="res_model">stock.picking.type</field>
+        <field name="type">ir.actions.act_window</field>
+
+        <field name="view_mode">kanban,form</field>
+        <field name="context">{'search_default_col_id': True}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                创建新的库存作业类型
+            </p>
+            <p>
+                本系统允许您为每个仓库分配一个特定的操作类型，该类型将相应地改变其视图。在操作类型上，您可以指定是否需要包装，是否应该向客户显示等操作。
+            </p>
+        </field>
+    </record>
+
+
+    <record id="action_picking_type_list" model="ir.actions.act_window">
+        <field name="name">作业类型</field>
+        <field name="res_model">stock.picking.type</field>
+        <field name="type">ir.actions.act_window</field>
+
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                创建新的作业类型
+            </p>
+        </field>
+
+    </record>
+
+    <menuitem
+            action="stock_picking_type_action"
+            id="stock_picking_type_menu"
+            parent="amos_base.menu_4"
+
+            sequence="1"/>
+
+    <menuitem id="menu_pickingtype"
+              parent="amos_base.menu_4_100"
+              action="action_picking_type_list" sequence="4"/>
+
+</odoo>

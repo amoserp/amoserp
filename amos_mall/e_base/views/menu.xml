@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <menuitem id="menu_e_base" name="小程序商城" sequence="0" web_icon="e_base,static/description/icon.png"/>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record model="res.col" id="res_col_01">
+            <field name="name">出入库类</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record model="res.col" id="res_col_02">
+            <field name="name">借出借入类</field>
+            <field name="sequence">2</field>
+        </record>
+
+        <record model="res.col" id="res_col_05">
+            <field name="name">检验类</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <record model="res.col" id="res_col_03">
+            <field name="name">盘点类</field>
+            <field name="sequence">4</field>
+        </record>
+
+        <record model="res.col" id="res_col_04">
+            <field name="name">其它类</field>
+            <field name="sequence">5</field>
+        </record>
+
+    </data>
+</odoo>

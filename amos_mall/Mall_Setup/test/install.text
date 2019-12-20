@@ -1,0 +1,152 @@
+675583
+
+第一步
+sudo passwd root 修改root 密码
+ssh root@47.98.41.28   EKC100china
+AmosERP1234567890
+
+第二步
+sudo apt-get update
+sudo apt-get upgrade
+
+第三步
+sudo useradd amos
+passwd amos
+密码1234567890
+
+第四步
+sudo apt-get install postgresql
+sudo su - postgres
+createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt amos
+密码 1234567890
+exit
+
+第五步
+
+上传源码方法 也可以使用FTP
+scp /Users/amos/Documents/Amos_Company/odoo.zip root@47.98.41.28:/opt
+
+第六步
+apt-get install unzip
+sudo tar xvfz /opt/odoo.zip
+sudo unzip /opt/odoo.zip
+改名
+mv file1 file2
+
+第七步
+然后cd至odoo同目录，安装依赖
+apt-get install python-pip
+sudo pip3 install -r requirements.txt
+
+sudo apt-get install python-werkzeug
+sudo apt-get install python-passlib
+sudo apt-get install python-lxml
+sudo apt-get install python-dateutil
+sudo apt-get install python-psycopg2
+sudo apt-get install python-PIL
+sudo pip install XlsxWriter
+sudo pip install suds
+apt-get install node-less
+sudo pip install PyPDF2
+sudo pip install html2text
+
+sudo apt-get install python-dateutil python-docutils python-feedparser python-gdata  python-jinja2 python-ldap python-libxslt1 python-lxml python-mako python-mock python-openid python-psutil python-pybabel python-pychart python-pydot python-pyparsing  python-reportlab python-simplejson python-tz python-unittest2 python-vatnumber python-vobject python-webdav python-werkzeug python-xlwt python-yaml python-zsi python-requests python-pypdf python-passlib
+
+sudo pip install decorator
+apt-get install python-xlrd
+
+第八步
+sudo chown -R amos /opt/odoo
+chmod -R 777 /opt
+
+第九步
+scp /Users/amos/Documents/odoo/install/47.98.41.28/amos-server.conf root@47.98.41.28:/etc/
+sudo chown -R amos /etc/amos-server.conf
+第十步
+scp /Users/amos/Documents/odoo/install/47.98.41.28/amos-server root@47.98.41.28:/etc/init.d/
+sudo update-rc.d amos-server defaults
+
+scp /Users/amos/Documents/odoo_adl/Amos_ERP/Amos_CMS root@47.98.41.28:/opt/odoo/myaddnos
+第十一步
+sudo chmod 7777 /etc/init.d/amos-server
+sudo chown root: /etc/init.d/amos-server
+
+第十二步
+sudo mkdir /var/lib/odoo
+sudo chown -R amos /var/lib/odoo
+sudo chown -R 'amos' /root
+sudo mkdir /var/log/odoo
+sudo chown -R amos /var/log/odoo
+Less CSS
+wget -qO- https://deb.nodesource.com/setup | bash -
+apt-get install -y nodejs
+apt-get install -y npm
+
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+
+sudo npm install -g less less-plugin-clean-css
+
+第十三步
+sudo /etc/init.d/amos-server restart
+sudo /etc/init.d/amos-server stop
+sudo /etc/init.d/amos-server start
+
+第十四步
+   在Ubuntu中安装中文字体：
+   $ sudo apt-get install ttf-wqy-zenhei
+   $ sudo apt-get install ttf-wqy-microhei
+
+第十五步
+sudo apt-get install wkhtmltopdf
+scp  /Users/amos/Documents/odoo/install/47.98.41.28/wkhtmltopdf root@47.98.41.28:/usr/bin/
+
+重启命令：
+shutdown -r now 立刻重启(root用户使用)
+
+ssh连接所生成的known_hosts出现的问题
+方法一：
+rm -rf ~/.ssh/known_hosts
+优点：干净利索
+缺点：把其他正确的公钥信息也删除，下次链接要全部重新经过认证
+
+方法二：
+清除旧的公钥信息
+ssh-keygen -R 47.98.41.28
+优点：快、稳、狠
+缺点：没有缺点
+
+
+
+UBUNTU下Nginx配置
+
+ODOO通过源码安装在ubuntu服务器的前提。
+
+1、更新系统
+         $ sudo apt-get update
+         $ sudo apt-get upgrade -y
+
+2、安装Nginx
+         $ sudo apt-get install nginx
+
+3、生成SSL证书
+         $ sudo mkdir /etc/nginx/ssl
+         $ cd /etc/nginx/ssl
+         $ sudo openssl genrsa -des3 -passout pass:x -out server.pass.key 2048
+         $ sudo openssl rsa -passin pass:x  -in server.pass.key -out server.key
+         $ sudo rm server.pass.key
+         $ sudo openssl req -new -key server.key -out server.csr
+         $ sudo openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+
+4、生成Nginx服务文件
+         $ sudo nano /etc/nginx/sites-available/yourOdooSite.com
+
+
+5、创建一个象征性的链接激活上面的服务文件
+         $sudo ln -s /etc/nginx/sites-available/yourOdooSite.com /etc/nginx/sites-enabled/yourOdooSite.com
+  $sudo ln -s /etc/nginx/sites-available/xodoo.cn /etc/nginx/sites-enabled/xodoo.cn
+
+6、重启nginx和odoo
+         $ sudo /etc/init.d/nginx restart
+
+
+

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="product_product_stock_form_inherit">
+            <field name="name">product.product.stock.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref=".odoo_product_product_form"/>
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//group[@name='g2']" position="inside">
+                    <button name="button_warehouse_product" type="object" string="生成库位并确认"
+                            groups="base.group_system"/>
+
+                    <button name="%(amos_stock.actions_union_product_stock_wizard)d" type="action"
+                            string="仓库合并" groups="base.group_system"/>
+                </xpath>
+
+                <xpath expr="//field[@name='uom_id']" position="after">
+                    <field name="is_qc"/>
+                    <field name="warehouse_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                </xpath>
+
+                <xpath expr="//page[@name='specs_ids']" position="before">
+                    <page string="存货信息" name="warehouse" >
+                        <field name="warehouse_ids" >
+                            <tree string="仓库">
+                                <field name="warehouse_id"/>
+
+                                <field name="initial_qty" readonly="1" sum="合计"/>
+                                <field name="location_qty" readonly="1" sum="合计"/>
+                                <field name="uom_id"
+                                       options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="company_id"/>
+                            </tree>
+                        </field>
+
+
+                        <group name="properties" col="12" colspan="12">
+                            <!--<group string="期初库存" col="2" colspan="1">-->
+                                <!--<field name="initial_paper_qty"/>-->
+                                <!--<field name="initial_real_qty"/>-->
+                                <!--<field name="initial_sale_qty"/>-->
+                                <!--<field name="initial_purchase_qty"/>-->
+                            <!--</group>-->
+                            <!--<group string="现有库存" col="2" colspan="1">-->
+                                <!--<field name="existing_paper_qty"/>-->
+                                <!--<field name="existing_real_qty"/>-->
+                                <!--<field name="existing_sale_qty"/>-->
+                                <!--<field name="existing_purchase_qty"/>-->
+                            <!--</group>-->
+                            <!--<group string="生产" col="2" colspan="1">-->
+                            <!--</group>-->
+
+                            <!--<group string="其它" col="2" colspan="1">-->
+                                <!--<field name="sale_qty"/>-->
+                                <!--<field name="function_stock"/>-->
+                                <!--<field name="product_reserved_qty"/>-->
+                                <!--<field name="stagnant_period"/>-->
+                            <!--</group>-->
+
+                        </group>
+                    </page>
+                </xpath>
+
+
+
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="product_product_stock_tree_inherit">
+            <field name="name">product.product.stock.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref=".odoo_product_product_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='uom_id']" position="after">
+                    <field name="existing_real_qty" />
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="odoo_product_stock_tree">
+            <field name="name">product.stock.tree</field>
+            <field name="model">product.stock</field>
+            <field name="arch" type="xml">
+                <tree string="物资">
+                    <field name="name"/>
+                    <field name="warehouse_id"/>
+                    <field name="company_id"/>
+                    <field name="uom_id"/>
+                    <field name="location_qty"/>
+                </tree>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

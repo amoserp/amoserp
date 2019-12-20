@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record model="stock.picking.type" id="stock_picking_type_01_a">
+             <field name="sequence">1</field>
+            <field name="color">1</field>
+            <field name="type">in</field>
+            <field name="col_id" ref="amos_stock.res_col_01"/>
+            <field name="name">其它入库单</field>
+            <field name="complete_name">其它入库单</field>
+            <field name="code">incoming</field>
+            <field name="barcode">WH-OTHER-IN</field>
+            <field name="default_location_dest_id" ref="amos_stock.stock_location_01"/>
+            <field name="sequence_id" ref="amos_stock.seq_stock_picking_in_other"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_01_b">
+             <field name="sequence">2</field>
+            <field name="color">1</field>
+            <field name="type">out</field>
+            <field name="col_id" ref="amos_stock.res_col_01"/>
+            <field name="name">其它出库单</field>
+            <field name="complete_name">其它出库单</field>
+            <field name="code">outgoing</field>
+            <field name="barcode">WH-OTHER-OUT</field>
+            <field name="default_location_src_id" ref="amos_stock.stock_location_01"/>
+            <field name="return_picking_type_id" ref="amos_stock.stock_picking_type_01_a"/>
+            <field name="sequence_id" ref="amos_stock.seq_stock_picking_out_other"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_01_a">
+            <field name="return_picking_type_id" ref="stock_picking_type_01_b"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_02_a">
+            <field name="sequence">10</field>
+            <field name="color">4</field>
+            <field name="type">in</field>
+            <field name="col_id" ref="amos_stock.res_col_01"/>
+            <field name="name">采购入库单</field>
+            <field name="complete_name">采购入库单</field>
+            <field name="code">incoming</field>
+            <field name="barcode">WH-IN</field>
+            <field name="default_location_dest_id" ref="amos_stock.stock_location_01"/>
+            <field name="sequence_id" ref="amos_stock.seq_stock_picking_in"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_02_b">
+             <field name="sequence">11</field>
+            <field name="color">4</field>
+            <field name="type">out</field>
+            <field name="col_id" ref="amos_stock.res_col_01"/>
+            <field name="name">销售出库单</field>
+            <field name="complete_name">销售出库单</field>
+            <field name="code">outgoing</field>
+            <field name="barcode">WH-OUT</field>
+            <field name="is_qty">True</field>
+            <field name="default_location_src_id" ref="amos_stock.stock_location_01"/>
+            <field name="return_picking_type_id" ref="amos_stock.stock_picking_type_02_a"/>
+            <field name="sequence_id" ref="amos_stock.seq_stock_picking_out"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_02_a">
+            <field name="return_picking_type_id" ref="stock_picking_type_02_b"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_scrap">
+            <field name="sequence">100</field>
+            <field name="color">3</field>
+            <field name="type">out</field>
+            <field name="col_id" ref="amos_stock.res_col_04"/>
+            <field name="name">报废单</field>
+            <field name="complete_name">报废单</field>
+            <field name="code">incoming</field>
+            <field name="barcode">WH-BF</field>
+            <field name="sequence_id" ref="amos_stock.seq_stock_picking_scrap"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_lose">
+            <field name="sequence">100</field>
+            <field name="color">3</field>
+            <field name="type">other</field>
+            <field name="col_id" ref="amos_stock.res_col_04"/>
+            <field name="name">丢失单</field>
+            <field name="complete_name">丢失单</field>
+            <field name="code">incoming</field>
+            <field name="barcode">WH-DS</field>
+            <field name="sequence_id" ref="amos_stock.seq_stock_picking_lose"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_return">
+            <field name="sequence">100</field>
+            <field name="color">3</field>
+            <field name="type">in</field>
+            <field name="col_id" ref="amos_stock.res_col_04"/>
+            <field name="name">退料单</field>
+            <field name="complete_name">退料单</field>
+            <field name="code">incoming</field>
+            <field name="barcode">WH-DS</field>
+            <field name="sequence_id" ref="amos_stock.seq_stock_picking_return"/>
+        </record>
+
+
+
+        <record model="stock.picking.type" id="stock_picking_type_10">
+            <field name="sequence">10</field>
+            <field name="color">9</field>
+            <field name="type">other</field>
+            <field name="col_id" ref="amos_stock.res_col_03"/>
+            <field name="name">盘点单</field>
+            <field name="complete_name">盘点单</field>
+            <field name="code">internal</field>
+            <field name="barcode">WH-PD</field>
+            <field name="sequence_id" ref="amos_stock.seq_stock_inventory"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_10_a">
+            <field name="sequence">11</field>
+            <field name="color">9</field>
+            <field name="type">in</field>
+            <field name="col_id" ref="amos_stock.res_col_03"/>
+            <field name="name">盘盈单</field>
+            <field name="complete_name">盘盈单</field>
+            <field name="code">incoming</field>
+            <field name="barcode">WH-overage</field>
+            <field name="default_location_dest_id" ref="amos_stock.stock_location_01"/>
+            <field name="sequence_id" ref="amos_stock.seq_stock_picking_overage"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_10_b">
+             <field name="sequence">12</field>
+            <field name="color">9</field>
+            <field name="type">out</field>
+            <field name="col_id" ref="amos_stock.res_col_03"/>
+            <field name="name">盘亏单</field>
+            <field name="complete_name">盘亏单</field>
+            <field name="code">outgoing</field>
+            <field name="barcode">WH-losses</field>
+            <field name="default_location_src_id" ref="amos_stock.stock_location_01"/>
+            <field name="return_picking_type_id" ref="amos_stock.stock_picking_type_10_a"/>
+            <field name="sequence_id" ref="amos_stock.seq_stock_picking_losses"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_10_a">
+            <field name="return_picking_type_id" ref="stock_picking_type_10_b"/>
+        </record>
+
+
+        <record model="stock.picking.type" id="stock_picking_type_tested_a">
+            <field name="sequence">2</field>
+            <field name="color">2</field>
+            <field name="type">in</field>
+            <field name="col_id" ref="amos_stock.res_col_05"/>
+            <field name="name">送检还入单</field>
+            <field name="complete_name">送检还入单</field>
+            <field name="code">incoming</field>
+            <field name="barcode">WH-Test-IN</field>
+            <field name="default_location_dest_id" ref="amos_stock.stock_location_01"/>
+            <field name="sequence_id" ref="amos_stock.seq_stock_tested_out_in"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_tested_b">
+            <field name="sequence">1</field>
+            <field name="color">2</field>
+            <field name="type">out</field>
+            <field name="col_id" ref="amos_stock.res_col_05"/>
+            <field name="name">送检单</field>
+            <field name="complete_name">送检单</field>
+            <field name="code">outgoing</field>
+            <field name="barcode">WH-Test-OUT</field>
+            <field name="is_qty">True</field>
+            <field name="default_location_src_id" ref="amos_stock.stock_location_01"/>
+            <field name="return_picking_type_id" ref="amos_stock.stock_picking_type_tested_a"/>
+            <field name="sequence_id" ref="amos_stock.seq_stock_tested_out"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_tested_a">
+            <field name="return_picking_type_id" ref="stock_picking_type_tested_b"/>
+        </record>
+
+
+
+        <record model="stock.picking.type" id="stock_picking_type_lend_a">
+            <field name="sequence">2</field>
+            <field name="color">2</field>
+            <field name="type">in</field>
+            <field name="col_id" ref="amos_stock.res_col_02"/>
+            <field name="name">借出还入单</field>
+            <field name="complete_name">借出还入单</field>
+            <field name="code">incoming</field>
+            <field name="barcode">WH-LEND-IN</field>
+            <field name="default_location_dest_id" ref="amos_stock.stock_location_01"/>
+            <field name="sequence_id" ref="amos_stock.seq_stock_lend_out_in"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_lend_b">
+            <field name="sequence">1</field>
+            <field name="color">2</field>
+            <field name="type">out</field>
+            <field name="col_id" ref="amos_stock.res_col_02"/>
+            <field name="name">借出单</field>
+            <field name="complete_name">借出单</field>
+            <field name="code">outgoing</field>
+            <field name="barcode">WH-LEND-OUT</field>
+            <field name="is_qty">True</field>
+            <field name="default_location_src_id" ref="amos_stock.stock_location_01"/>
+            <field name="return_picking_type_id" ref="amos_stock.stock_picking_type_lend_a"/>
+            <field name="sequence_id" ref="amos_stock.seq_stock_lend_out"/>
+        </record>
+
+        <record model="stock.picking.type" id="stock_picking_type_lend_a">
+            <field name="return_picking_type_id" ref="stock_picking_type_lend_b"/>
+        </record>
+
+
+        <!--<record model="stock.picking.type" id="stock_picking_type_assets_a">-->
+            <!--<field name="sequence">30</field>-->
+            <!--<field name="color">4</field>-->
+            <!--<field name="type">in</field>-->
+            <!--<field name="col_id" ref="amos_stock.res_col_01"/>-->
+            <!--<field name="name">固定资产管理</field>-->
+            <!--<field name="complete_name">固定资产管理</field>-->
+            <!--<field name="code">incoming</field>-->
+            <!--<field name="barcode">WH-IN-Assets</field>-->
+            <!--<field name="sequence_id" ref="amos_stock.seq_stock_picking_assets_in"/>-->
+        <!--</record>-->
+
+
+    </data>
+</odoo>

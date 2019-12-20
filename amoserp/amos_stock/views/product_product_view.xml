@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="product_product_stock_form_inherit">
+            <field name="name">product.product.stock.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="amos_product.amos_product_product_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+
+                    <button name="button_product_inout"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-print"
+                            string="历史"
+                    >
+                    </button>
+                </xpath>
+
+                <xpath expr="//group[@name='g2']" position="inside">
+                    <button name="button_warehouse_product" type="object" string="生成库位并确认"
+                            groups="base.group_system"/>
+
+                    <button name="%(amos_stock.actions_union_product_stock_wizard)d" type="action"
+                            string="仓库合并" groups="base.group_system"/>
+                </xpath>
+
+                <xpath expr="//field[@name='warranty']" position="after">
+                    <field name="is_qc" invisible="1"/>
+                    <field name="warehouse_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='is_assets']" position="after">
+
+                    <label for="interval_type" string="周期"/>
+                    <div class="row">
+                        <field name="interval_number" class="oe_inline"/>
+                        <field name="interval_type" class="oe_inline"/>
+                    </div>
+                    <field name="next_time"/>
+
+                    <field name="beginning_result" readonly="1"/>
+                    <field name="test_date_done" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//page[@name='product_price']" position="before"
+                       attrs="{'invisible': [('type', '=', 'service')]}">
+                    <page string="存货信息" name="warehouse">
+                        <field name="warehouse_ids">
+                            <tree string="仓库">
+                                <field name="warehouse_id"/>
+                                <field name="location_qty" readonly="1" sum="合计"/>
+                                <field name="virtual_available" readonly="1" sum="合计"/>
+                                <field name="lend_out_qty" readonly="1" sum="合计"/>
+                                <field name="tested_out_qty" readonly="1" sum="合计"/>
+                                <field name="product_min_qty"/>
+                                <field name="product_max_qty"/>
+                                <field name="uom_id"
+                                       options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                            </tree>
+                        </field>
+
+
+                        <group name="properties" col="12" colspan="12"
+                               attrs="{'invisible': [('type', '=', 'service')]}">
+                            <group name="existing" string="现有库存" col="2" colspan="1">
+                                <field name="forecast_qty"/>
+                                <field name="qty"/>
+                            </group>
+                            <group col="2" name="existing_lend" string="借出借入类" colspan="1">
+                                <field name="existing_lend_out_qty"/>
+                            </group>
+
+                            <group name="tested_qty" col="2" string="送检数量" colspan="1">
+                                <field name="tested_qty"/>
+                            </group>
+
+                            <group col="2" name="mrp" colspan="1">
+                            </group>
+                            <group col="2" name="purchase" string="采购" colspan="1">
+                                <field name="purchase_price" required='1'/>
+                                <field name="purchase_delivery_time" required='1'/>
+
+                            </group>
+
+                            <group name="other" col="2" colspan="1">
+                            </group>
+
+                        </group>
+                    </page>
+                    <page string="送检">
+                        <field name="product_tested_ids" readonly="1">
+                            <tree string="列表" create="false" edit="false" delete="false">
+                                <field name="picking_id"/>
+                                <field name="name"/>
+                                <field name="product_uom_qty" widget="integer"/>
+                                <field name="product_uom"/>
+                                <field name="verification_date"/>
+                                <field name="interval_type"/>
+                                <field name="interval_number"/>
+                                <field name="next_time"/>
+                                <field name="warehouse_id"/>
+                                <field name="note"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="product_product_stock_tree_inherit">
+            <field name="name">product.product.stock.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="amos_product.amos_product_product_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='uom_id']" position="after">
+                    <field name="qty"/>
+                    <field name="existing_lend_out_qty"/>
+                    <field name="forecast_qty"/>
+                    <field name="next_time"/>
+                    <field name="warehouse_id"/>
+                    <field name="test_date_done" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="odoo_product_product_tree_now_time">
+            <field name="name">product.product.tree</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree string="物资" name="product_product_tree">
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="default_code"/>
+                    <field name="name"/>
+                    <field name="specification"/>
+                    <field name="categ_id"/>
+                    <field name="uom_id"/>
+                    <field name="qty"/>
+                    <field name="forecast_qty"/>
+                    <field name="next_time"/>
+                    <field name="warehouse_id"/>
+                    <field name="user_id"/>
+                    <field name="create_date" widget="date" string="建档日期"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="odoo_product_stock_tree">
+            <field name="name">product.stock.tree</field>
+            <field name="model">product.stock</field>
+            <field name="arch" type="xml">
+                <tree string="物资">
+                    <field name="name"/>
+                    <field name="warehouse_id"/>
+                    <field name="company_id"/>
+                    <field name="uom_id"/>
+                    <field name="location_qty"/>
+                </tree>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

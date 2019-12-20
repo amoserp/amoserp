@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="odoo_form_stock_picking_tested_view" model="ir.ui.view">
+            <field name="name">stock.picking.tested.form</field>
+            <field name="model">stock.picking.tested</field>
+            <field name="arch" type="xml">
+                <form string="表单" create="false">
+                    <header>
+                        <field name="id" invisible="1"/>
+                        <button name='button_add_stock_picking_tested_in' states='待处理,报废单,' string='申请入库' type='object'
+                                class='oe_highlight'/>
+                        <button name='button_add_stock_picking_scrap' states='待处理,入库单' string='申请报废' type='object'
+                                class='oe_highlight'/>
+                        <button name='button_draft' groups="amos_stock.stock_manager" states='入库单,报废单'
+                                string='重置待处理'
+                                type='object' class='oe_highlight'/>
+                        <field name='state' widget='statusbar' statusbar_visible="待处理,入库单,报废单"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name='button_print1' string='重新评估单' type='object'
+                                    context="{'report':'Amos_Client_stock_picking_8.Client_menu_stock_picking_8'}"
+                                    class="oe_stat_button" icon="fa-print"/>
+
+                            <button name='button_print1' string='超差计量具人员' type='object'
+                                    context="{'report':'Amos_Client_stock_picking_8.Client_menu_stock_picking_8'}"
+                                    class="oe_stat_button" icon="fa-print"/>
+
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+
+
+                                <label for="other_id" string="送检人"/>
+                                <div class="row">
+                                    <field name="other_id" readonly="1" options="{'no_create_edit': True}"
+                                           class="oe_inline"/>
+                                    <label for="create_date" string="&#8195;&#8195;"/>
+                                    <field name="create_date" widget="date" readonly="1" class="oe_inline"/>
+                                </div>
+
+                                <field name="department_id" readonly="1"
+                                       options="{'no_create_edit': True}"
+                                       string="专业部"/>
+
+                                <label for="auditor_id" string="部门经理"/>
+                                <div class="row">
+                                    <field name="auditor_id" readonly="1" class="oe_inline"/>
+                                    <label for="auditor_id_date" string="&#8195;&#8195;"/>
+                                    <field name="auditor_id_date" widget="date" readonly="1" class="oe_inline"/>
+                                </div>
+
+                                <label for="user_id" string="物资管理员"/>
+                                <div class="row">
+                                    <field name="user_id" readonly="1" options="{'no_create_edit': True}"
+                                           class="oe_inline"/>
+                                    <label for="date_done" string="&#8195;&#8195;"/>
+                                    <field name="date_done" widget="date" readonly="1" class="oe_inline"/>
+                                </div>
+
+                                <field name="partner_id" string="送检单位" readonly="1"/>
+                                <field name="create_uid" string="创建人" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="date_order" readonly="1"/>
+                                <field name="product_id" readonly="1"/>
+                                <field name="product_uom_qty" />
+                                <label for="interval_type" string="周期"/>
+                                <div class="row">
+                                    <field name="interval_number" class="oe_inline"/>
+                                    <field name="interval_type" class="oe_inline"/>
+                                </div>
+                                <field name="test_date_done" readonly="1"/>
+                                <field name="picking_id" readonly="1"
+                                 context="{'form_view_ref':'amos_stock.odoo_stock_picking_tested_out_form','tree_view_ref':'amos_stock.odoo_stock_picking_tested_out_tree'}"/>
+                                <field name="scrap_id"  attrs="{'invisible': ['|',('scrap_id', '=', False),('id', '=', False)]}" readonly="1"
+                                 context="{'form_view_ref':'amos_stock.odoo_stock_picking_scrap_form','tree_view_ref':'amos_stock.odoo_stock_picking_scrap_tree'}"/>
+                                <field name="picking_in_id" attrs="{'invisible': ['|',('picking_in_id', '=', False),('id', '=', False)]}" readonly="1"
+                                context="{'form_view_ref':'amos_stock.odoo_stock_picking_tested_in_form','tree_view_ref':'amos_stock.odoo_stock_picking_tested_in_tree'}"/>
+
+                                <field name="company_id" readonly="1" options="{'no_create': True}" required='1'
+                                       groups="base.group_multi_company"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="使用过超差计量器具的人员名单" name="page_card">
+                                <field name="order_line" readonly="1">
+                                    <form string="Idea form">
+                                        <group>
+                                            <group>
+                                                <separator string="物资信息" colspan="2"/>
+                                                <field name="product_id"
+                                                       options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                            </group>
+
+                                            <group>
+                                            </group>
+
+                                            <notebook colspan="4">
+                                                <page string="备注">
+                                                </page>
+                                            </notebook>
+                                        </group>
+                                    </form>
+
+
+                                    <tree string="使用过超差计量器具的人员名单" editable="bottom">
+                                        <field name="picking_id"/>
+                                        <field name="move_id"/>
+                                        <field name="product_uom"/>
+                                        <field name="date_done"/>
+                                        <field name="other_id"/>
+                                        <field name="department_id"/>
+                                        <field name="product_id" invisible="1"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+
+                                <separator string="备注" colspan="2"/>
+                                <field name="note"  attrs="{'readonly': [('state', '=', '已完成')]}" placeholder="暂无备注信息"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="odoo_tree_stock_picking_tested_view" model="ir.ui.view">
+            <field name="name">stock.picking.tested.tree</field>
+            <field name="model">stock.picking.tested</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <tree string="入库单" decoration-bf="message_needaction==True" decoration-info="state == '新建'"
+                      decoration-danger="state == '待审批'" decoration-muted="state == '已完成'" create="false" delete="false">
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="name"/>
+                    <field name="partner_id" string="业务伙伴"/>
+                    <field name="date_order" widget="date"/>
+                    <field name="user_id" string="物资管理员"/>
+                    <field name="other_id" string="送检员"/>
+                    <field name="auditor_id"/>
+                    <field name="department_id" string="专业部"/>
+                    <field name="create_uid" string="创建人" readonly="1"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="odoo_stock_picking_tested_search" model="ir.ui.view">
+            <field name="name">stock.picking.tested.search</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <search string="查询">
+                    <field name="name" string=""
+                           filter_domain="['|','|',('name','ilike', self),('origin','ilike',self),('date_order_str','ilike',self)]"/>
+                    <filter string="我创建的单据" domain="[('create_uid','=',uid)]" name="my_orders_filter"/>
+                    <filter string="未读消息" name="message_needaction" domain="[('message_needaction','=',True)]"/>
+                    <separator/>
+                    <filter string="今天" name="today"
+                            domain="[('date_order', '&gt;=', time.strftime('%Y-%m-%d')),('date_order', '&lt;=', time.strftime('%Y-%m-%d'))]"/>
+                    <filter string="昨天" name="yesterday"
+                            domain="[('date_order','&gt;=', (context_today() -datetime.timedelta(days=1)).strftime('%Y-%m-%d')),('date_order','&lt;=', (context_today() -datetime.timedelta(days=1)).strftime('%Y-%m-%d')) ]"/>
+                    <filter string="本周" name="week"
+                            domain="['&amp;',('date_order', '>=', (context_today() + relativedelta(weeks=-1,days=1,weekday=0)).strftime('%Y-%m-%d')),('date_order', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')),]"/>
+                    <filter string="上周" name="last_week"
+                            domain="[('date_order','&gt;=', (context_today() - datetime.timedelta(weeks=1)).strftime('%Y-%m-%d')),('date_order','&lt;=', (context_today() - datetime.timedelta(weeks=1,days=-6)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="本月" name="month1"
+                            domain="['&amp;',('date_order', '>=', (context_today() + relativedelta(day=1)).strftime('%Y-%m-%d')),('date_order', '&lt;=', (context_today() + relativedelta(months=1, day=1, days=-1)).strftime('%Y-%m-%d')),]"/>
+                    <filter string="上月" name="last_month"
+                            domain="[('date_order','&lt;', time.strftime('%Y-%m-01')),('date_order','&gt;=',  (context_today() - relativedelta(months=1)).strftime('%Y-%m-01') ) ]"/>
+                    <filter string="本年" name="year"
+                            domain="[('date_order','&lt;=', time.strftime('%Y-12-31')),('date_order','&gt;=',time.strftime('%Y-01-01'))]"/>
+
+                    <separator/>
+                    <filter string="新建" name="state1" domain="[('state','=','新建')]"/>
+                    <filter string="待审批" name="state2" domain="[('state','=','待审批')]"/>
+                    <filter string="仓库" name="state3" domain="[('state','=','仓库')]"/>
+                    <filter string="已完成" name="state4" domain="[('state','=','已完成')]"/>
+                    <filter string="未完成" name="state5" domain="[('state','!=','已完成')]"/>
+                    <separator/>
+                    <filter string="已归档" name="active_yes" domain="[('active','=',False)]"/>
+                    <filter string="未归档" name="active_no" domain="[('active','=',True)]"/>
+                    <separator/>
+                    <group expand="0" string="分组">
+                        <filter string="归档" name="active" domain="[]" context="{'group_by':'active'}"/>
+                        <filter string="送检人" name="other_id" domain="[]" context="{'group_by':'other_id'}"/>
+                        <filter string="物资管理员" name="user_id" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="送检单位" name="partner_id" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="单据状态" name="state" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="公司" name="company_id" domain="[]" context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="odoo_action_stock_picking_tested_view" model="ir.actions.act_window">
+            <field name="name">不合格处理单</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.picking.tested</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+            <field name="search_view_id" ref="odoo_stock_picking_tested_search"/>
+             <field name="context">{
+                'search_default_state5': 1,
+                }
+            </field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    创建单据.
+                </p>
+                <p>
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="odoo_action_stock_picking_tested_view" parent="amos_base.menu_4"
+                  id="menu_stock_picking_tested_view" sequence="20"/>
+        <record id="odoo_action_stock_picking_tested_view" model="ir.actions.act_window">
+            <field name="name">不合格处理单</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.picking.tested</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+            <field name="search_view_id" ref="odoo_stock_picking_tested_search"/>
+            <field name="context"
+                   eval="{'search_default_state5': 1,
+                   'global_search_menu': ref('amos_base.menu_4'),'global_search_actions': ref('amos_stock.odoo_action_stock_picking_tested_view'),'search_default_state5': 1
+                   }"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    创建单据.
+                </p>
+                <p>
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

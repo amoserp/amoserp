@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_location_form" model="ir.ui.view">
+        <field name="name">stock.location.form</field>
+        <field name="model">stock.location</field>
+        <field name="arch" type="xml">
+            <form string="Stock Location" create="false">
+                <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                        <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                    </button>
+                </div>
+                <label for="name" class="oe_edit_only"/>
+                <h1>
+                    <field name="name"/>
+                </h1>
+                <label for="location_id" class="oe_edit_only"/>
+                <h2>
+                    <field name="location_id" options="{'no_create': True}"/>
+                </h2>
+
+                <group>
+                    <group string="基本信息">
+                        <field name="usage"/>
+                        <field name="partner_id" context="{'search_default_supplier':1, 'default_supplier':1, 'default_customer':1}"/>
+                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        <field name="scrap_location"/>
+                        <field name="return_location"/>
+                    </group>
+                    <group string="定位" name="localization">
+                        <field name="posx"/>
+                        <field name="posy"/>
+                        <field name="posz"/>
+                        <field name="barcode"/>
+                    </group>
+
+                </group>
+                <field name="comment" placeholder="备注..."/>
+            </form>
+        </field>
+    </record>
+
+    <record id="stock_location_view_form_editable" model="ir.ui.view">
+        <field name="name">stock.location.form.editable</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="amos_stock.view_location_form"/>
+        <field name="groups_id" eval="[(4, ref('amos_stock.stock_manager'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">true</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_location_search" model="ir.ui.view">
+        <field name="name">stock.location.search</field>
+        <field name="model">stock.location</field>
+        <field name="arch" type="xml">
+            <search string="Stock Locations">
+                <field name="name" string="Stock Locations"/>
+                <filter name="in_location" string="内部" domain="[('usage', '=', 'internal')]"/>
+                <filter name="customer" string="客户" domain="[('usage', '=', 'customer')]"/>
+                <filter name="supplier" string="供应商" domain="[('usage', '=', 'supplier')]" help="Vendor Locations"/>
+                <field name="location_id" string="上级位置"/>
+                <separator/>
+                <filter string="已归档" name="inactive" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_location_tree2" model="ir.ui.view">
+        <field name="name">stock.location.tree</field>
+        <field name="model">stock.location</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <tree string="Stock Location" decoration-info="usage=='view'" decoration-danger="usage=='internal'"
+                  create="false">
+                <field name="active" invisible="1"/>
+                <field name="display_name" string="库位"/>
+                <field name="usage"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="stock_location_view_tree2_editable" model="ir.ui.view">
+        <field name="name">stock.location.tree2.editable</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="amos_stock.view_location_tree2"/>
+        <field name="groups_id" eval="[(4, ref('amos_stock.stock_manager'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">true</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_location_form" model="ir.actions.act_window">
+        <field name="name">位置</field>
+        <field name="res_model">stock.location</field>
+        <field name="type">ir.actions.act_window</field>
+
+        <field name="limit">20</field>
+        <field name="view_id" ref="view_location_tree2"/>
+        <field name="search_view_id" ref="view_location_search"/>
+        <field name="context">{'search_default_in_location':1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                添加位置
+            </p>
+            <p>
+                自定义位置来反映仓库的结构和组织。系统能管理实体位置（仓库、货架、储位等等），业务伙伴位置（客户、供应商）和虚拟位置，即是对方的库存作业，如：生产订单的消耗、盘点等。
+            </p>
+            <p>
+               系统中每一个库存操作都是将物资从一个位置移至另一位置。例如，若果你从供应商那边收到物资，系统将会把物资从供应商位置调拨到仓库位置。每个报表可用在实体位置、业务伙伴位置或者虚拟位置进行。
+            </p>
+        </field>
+    </record>
+    <menuitem action="action_location_form" id="menu_action_location_form" parent="amos_base.menu_4_100" sequence="2" groups="amos_stock.stock_manager"/>
+
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_e_order_read,购物车订单系统,model_e_order,base.group_user,1,1,1,1
+access_e_order_manager,购物车订单系统,model_e_order,e_order.e_order_manager,1,1,1,1
+
+access_e_order_line_read,购物车订单系统明细,model_e_order_line,base.group_user,1,1,1,1
+access_e_order_line_manager,购物车订单系统明细,model_e_order_line,e_order.e_order_manager,1,1,1,1

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="0">
+        <record id="e_product_groups" model="ir.module.category">
+            <field name="name">APP产品</field>
+        </record>
+
+        <record id="e_product_manager" model="res.groups">
+            <field name="name">产品-经理</field>
+            <field name="category_id" ref="e_product.e_product_groups"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+    </data>
+
+    <data noupdate="1">
+
+        <record id="rule_e_product" model="ir.rule">
+            <field name="name">只能看自己管理的商品</field>
+            <field ref="model_e_product" name="model_id"/>
+            <field name="domain_force">['|',('user_id','=',user.id),('user_id','=',False)]</field>
+            <field name="groups" eval="[(4, ref('e_product.e_product_manager'))]"/>
+        </record>
+
+        <record id="rule_e_product_compan" model="ir.rule">
+            <field name="name">我管理公司的商品</field>
+            <field name="model_id" ref="model_e_product"/>
+            <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]
+            </field>
+        </record>
+
+    </data>
+</odoo>

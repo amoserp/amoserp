@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <record model="product.product" id="product_01">
+        <field name="name">电解铜</field>
+        <field name="default_code">1001001</field>
+        <field name="brand">贵溪</field>
+        <field name="country">中国</field>
+        <field name="ITR">16.00</field>
+        <field name="OTR">16.00</field>
+        <field name="purchase_price">50000.00</field>
+        <field name="sales_price">51000.00</field>
+        <field name="state">启用</field>
+        <field name="category_id" ref="my_product.category_01"/>
+        <field name="uom_id" ref="my_product.product_uom_01"/>
+    </record>
+    <record model="product.product" id="product_02">
+        <field name="name">电解铜</field>
+        <field name="default_code">1001002</field>
+        <field name="brand">江铜PC</field>
+        <field name="country">中国</field>
+        <field name="ITR">16.00</field>
+        <field name="OTR">16.00</field>
+        <field name="purchase_price">50000.00</field>
+        <field name="sales_price">51000.00</field>
+        <field name="state">启用</field>
+        <field name="category_id" ref="my_product.category_01"/>
+        <field name="uom_id" ref="my_product.product_uom_01"/>
+    </record>
+    <record model="product.product" id="product_03">
+        <field name="name">电解铜</field>
+        <field name="default_code">1001003</field>
+        <field name="brand">金川</field>
+        <field name="country">中国</field>
+        <field name="ITR">16.00</field>
+        <field name="OTR">16.00</field>
+        <field name="purchase_price">50000.00</field>
+        <field name="sales_price">51000.00</field>
+        <field name="state">启用</field>
+        <field name="category_id" ref="my_product.category_01"/>
+        <field name="uom_id" ref="my_product.product_uom_01"/>
+    </record>
+    <record model="product.product" id="product_04">
+        <field name="name">电解铜</field>
+        <field name="default_code">1001004</field>
+        <field name="brand">金川PC</field>
+        <field name="country">中国</field>
+        <field name="ITR">16.00</field>
+        <field name="OTR">16.00</field>
+        <field name="purchase_price">50000.00</field>
+        <field name="sales_price">51000.00</field>
+        <field name="state">启用</field>
+        <field name="category_id" ref="my_product.category_01"/>
+        <field name="uom_id" ref="my_product.product_uom_01"/>
+    </record>
+    <record model="product.product" id="product_05">
+        <field name="name">电解铜</field>
+        <field name="default_code">1001005</field>
+        <field name="brand">大江PC</field>
+        <field name="country">中国</field>
+        <field name="ITR">16.00</field>
+        <field name="OTR">16.00</field>
+        <field name="purchase_price">50000.00</field>
+        <field name="sales_price">51000.00</field>
+        <field name="state">启用</field>
+        <field name="category_id" ref="my_product.category_01"/>
+        <field name="uom_id" ref="my_product.product_uom_01"/>
+    </record>
+    <record model="product.product" id="product_06">
+        <field name="name">电解铜</field>
+        <field name="default_code">1001006</field>
+        <field name="brand">铜冠</field>
+        <field name="country">中国</field>
+        <field name="ITR">16.00</field>
+        <field name="OTR">16.00</field>
+        <field name="purchase_price">50000.00</field>
+        <field name="sales_price">51000.00</field>
+        <field name="state">启用</field>
+        <field name="category_id" ref="my_product.category_01"/>
+        <field name="uom_id" ref="my_product.product_uom_01"/>
+    </record>
+    <record model="product.product" id="product_07">
+        <field name="name">电解铜</field>
+        <field name="default_code">1001007</field>
+        <field name="brand">铁峰</field>
+        <field name="country">中国</field>
+        <field name="ITR">16.00</field>
+        <field name="OTR">16.00</field>
+        <field name="purchase_price">50000.00</field>
+        <field name="sales_price">51000.00</field>
+        <field name="state">启用</field>
+        <field name="category_id" ref="my_product.category_01"/>
+        <field name="uom_id" ref="my_product.product_uom_01"/>
+    </record>
+    <record model="product.product" id="product_08">
+        <field name="name">电解铜</field>
+        <field name="default_code">1001008</field>
+        <field name="brand">波兰大板</field>
+        <field name="country">波兰</field>
+        <field name="ITR">16.00</field>
+        <field name="OTR">16.00</field>
+        <field name="tariff_rate">5.00</field>
+        <field name="purchase_price">50000.00</field>
+        <field name="sales_price">51000.00</field>
+        <field name="state">启用</field>
+        <field name="category_id" ref="my_product.category_01"/>
+        <field name="uom_id" ref="my_product.product_uom_01"/>
+    </record>
+    <record model="product.product" id="product_09">
+        <field name="name">电解铜</field>
+        <field name="default_code">1001009</field>
+        <field name="brand">波兰小板</field>
+        <field name="country">波兰</field>
+        <field name="ITR">16.00</field>
+        <field name="OTR">16.00</field>
+        <field name="tariff_rate">5.00</field>
+        <field name="purchase_price">50000.00</field>
+        <field name="sales_price">51000.00</field>
+        <field name="state">启用</field>
+        <field name="category_id" ref="my_product.category_01"/>
+        <field name="uom_id" ref="my_product.product_uom_01"/>
+    </record>
+    <record model="product.product" id="product_201">
+        <field name="name">铝</field>
+        <field name="default_code">1002001</field>
+        <field name="brand">沂蒙</field>
+        <field name="country">中国</field>
+        <field name="ITR">16.00</field>
+        <field name="OTR">16.00</field>
+        <field name="purchase_price">50000.00</field>
+        <field name="sales_price">51000.00</field>
+        <field name="state">启用</field>
+        <field name="category_id" ref="my_product.category_02"/>
+        <field name="uom_id" ref="my_product.product_uom_01"/>
+    </record>
+
+</odoo>

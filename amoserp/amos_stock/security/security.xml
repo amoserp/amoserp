@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="group_stock_multi_locations" model="res.groups">
+            <field name="name">管理多个库存位置</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record id="group_production_lot" model="res.groups">
+            <field name="name">管理批次/序列号</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record id="group_tracking_lot" model="res.groups">
+            <field name="name">管理包裹</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record id="group_stock_multi_warehouses" model="res.groups">
+            <field name="name">多仓库</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record id="group_scan" model="res.groups">
+            <field name="name">仓库-扫码</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+
+        <record id="stock_groups" model="ir.module.category">
+            <field name="name">仓库</field>
+            <field name="sequence">203</field>
+        </record>
+
+        <record id="stock_users" model="res.groups">
+            <field name="name">仓库-用户</field>
+            <field name="category_id" ref="stock_groups"/>
+        </record>
+
+        <record id="stock_manager" model="res.groups">
+            <field name="name">仓库-管理员</field>
+            <field name="category_id" ref="stock_groups"/>
+            <field name="implied_ids" eval="[(4, ref('stock_users'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="stock_location" model="res.groups">
+            <field name="name">多库位管理</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="warehouse_orderpoint" model="res.groups">
+            <field name="name">订货规则</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="know_price" model="res.groups">
+            <field name="name">仓库隐藏价格</field>
+            <field name="category_id" ref="stock_groups"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+    </data>
+
+</odoo>

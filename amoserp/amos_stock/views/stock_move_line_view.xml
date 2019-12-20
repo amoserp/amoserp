@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_stock_move_line_operation_tree" model="ir.ui.view">
+        <field name="name">stock.move.line.operations.tree</field>
+        <field name="model">stock.move.line</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="picking_id" invisible="1"/>
+                <field name="product_id" invisible="1"/>
+                <field name="product_uom_qty" />
+                <field name="product_uom_id" />
+
+            </tree>
+        </field>
+    </record>
+</odoo>

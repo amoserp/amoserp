@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record model="ir.ui.view" id="odoo_stock_warehouse_form">
+            <field name="name">stock.warehouse.form</field>
+            <field name="model">stock.warehouse</field>
+            <field name="arch" type="xml">
+                <form string="仓库">
+                    <sheet>
+                        <group>
+                            <field name="code" required="1"/>
+                            <field name="name" required="1"/>
+                            <field name="active" widget='boolean_clickable'/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="odoo_stock_warehouse_tree">
+            <field name="name">stock.warehouse.tree</field>
+            <field name="model">stock.warehouse</field>
+            <field name="arch" type="xml">
+                <tree string="仓库">
+                    <field name="code" readonly="1"/>
+                    <field name="name" required="1"/>
+                    <field name="user_id" required="1"/>
+                    <field name="company_id" required="1"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_search_stock_warehouse" model="ir.ui.view">
+            <field name="name">stock.warehouse.search</field>
+            <field name="model">stock.warehouse</field>
+            <field name="arch" type="xml">
+                <search string="查询">
+                    <field name="name" string="仓库"
+                           filter_domain="['|',('name','ilike',self),('code','ilike',self)]"/>
+                    <field name="user_id" operator="child_of"/>
+                    <filter string="负责人" domain="[('user_id','=',uid)]" name="my_filter"/>
+                    <separator/>
+                    <separator/>
+                    <group expand="0" string="分组">
+                        <filter string="负责人" name="user_id" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="公司" name="company_id" domain="[]" context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="odoo_stock_warehouse_act" model="ir.actions.act_window">
+            <field name="name">仓库</field>
+            <field name="res_model">stock.warehouse</field>
+
+            <field name="limit">20</field>
+            <field name="view_id" ref="odoo_stock_warehouse_tree"/>
+            <field name="search_view_id" ref="view_search_stock_warehouse"/>
+
+        </record>
+
+        <menuitem action="odoo_stock_warehouse_act" id="menu_odoo_stock_warehouse_act" sequence="1"
+                   groups="amos_stock.stock_location"
+                  parent="amos_base.menu_4_100"/>
+
+
+    </data>
+</odoo>

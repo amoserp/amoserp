@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record model="uom.uom" id="product_uom_01">
+            <field name="name">吨</field>
+        </record>
+        <record model="uom.uom" id="product_uom_02">
+            <field name="name">KG</field>
+        </record>
+
+    </data>
+</odoo>

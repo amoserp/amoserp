@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record model="ir.ui.view" id="odoo_stock_lend_out_form">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <form string="借出单">
+                    <header>
+                        <field name="id" invisible="1"/>
+                        <field name="picking_type_code" invisible="1"/>
+                        <field name="picking_type_code" invisible="1"/>
+                        <button name='button_loading_draft' groups="amos_stock.stock_manager" states='待审批,仓库'
+                                string='重置新建'
+                                type='object' class='oe_highlight'/>
+                        <button name='button_done_draft' groups="amos_stock.stock_manager" states='已完成' string='重置新建'
+                                type='object' class='oe_highlight'/>
+                        <button name='button_loading' groups="amos_stock.stock_users" states='新建' string='提交'
+                                type='object' class='oe_highlight'/>
+                        <button name='button_stock' groups="amos_stock.stock_manager" states='待审批' string='审核'
+                                type='object' class='oe_highlight'/>
+                        <button name='button_done' groups="amos_stock.stock_manager" states='仓库' string='确认出库'
+                                type='object' class='oe_highlight'/>
+                        <field name='state' widget='statusbar' statusbar_visible="新建,待审批,仓库,已完成"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="create_stock_lend_out_in"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-pencil-square-o"
+                                    string="创建还入单"
+                                    groups="amos_stock.stock_users"
+                                    attrs="{'invisible': [('document_state', '=', '全部归还')]}"
+                            >
+                            </button>
+                            <button name="create_stock_lend_out_lose"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-pencil-square-o"
+                                    string="创建丢失单"
+                                    groups="amos_stock.stock_users"
+                                    attrs="{'invisible': [('document_state', '=', '全部归还')]}"
+                            >
+                            </button>
+                            <button name='button_print1' string='打印' type='object'
+                                    attrs="{'invisible': [('is_borrow_return', '!=', False)]}"
+                                    context="{'report':'Amos_Client_stock_picking_3.Client_menu_stock_picking_3'}"
+                                    class="oe_stat_button" icon="fa-print"/>
+                            <button name='button_print1' string='外部打印' type='object'
+                                    attrs="{'invisible': [('is_borrow_return', '=', False)]}"
+                                    context="{'report':'Amos_Client_stock_picking_4.Client_menu_stock_picking_4'}"
+                                    class="oe_stat_button" icon="fa-print"/>
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive"
+                                    attrs="{'invisible': [('state', '!=', '已完成')]}"
+
+                                    groups="amos_stock.stock_users">
+                                <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                        <h1 class="d-none d-md-block">
+                            <field name="name" attrs="{'invisible': [('name','=','/')]}" readonly="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="other_id" required="1"
+                                       options="{'no_create_edit': True}"
+                                       string="借用人"/>
+                                <field name="department_id" required="1"
+                                       options="{'no_create_edit': True}"
+                                       string="专业部"/>
+
+                                <label for="auditor_id" string="部门经理"/>
+                                <div class="row">
+                                    <field name="auditor_id" readonly="1" class="oe_inline"/>
+                                    <label for="auditor_id_date" string="&#8195;&#8195;"/>
+                                    <field name="auditor_id_date" widget="date" readonly="1" class="oe_inline"/>
+                                </div>
+                                <label for="user_id" string="物资管理员"/>
+                                <div class="row">
+                                    <field name="user_id" readonly="1" options="{'no_create_edit': True}"
+                                           class="oe_inline"/>
+                                    <label for="date_done" string="&#8195;&#8195;"/>
+                                    <field name="date_done" widget="date" readonly="1" class="oe_inline"/>
+                                </div>
+
+                                <field name="picking_type_id" required="1" invisible="1"
+                                       attrs="{'readonly': [('picking_type_id','!=',False)],'invisible': ['|',('picking_type_id', '=', False),('id', '=', False)]}"/>
+
+                                <field name="location_id" invisible="1"/>
+                                <field name="location_dest_id" invisible="1"/>
+                                <field name="origin"/>
+                                <field name="is_borrow_return"/>
+
+
+                            </group>
+                            <group>
+                                <field name="date" readonly='1'/>
+                                <field name="delivery_date" string="计划归还日期"/>
+                                <field name="document_state"/>
+                                <field name="duration"/>
+                                <field name="partner_id" string="借用单位"
+                                       context="{'search_default_supplier':1, 'default_supplier':1, 'default_customer':1}"
+                                       attrs="{'invisible': [('is_borrow_return', '=', False)],'required': [('is_borrow_return', '!=', False)]}"/>
+                                <field name="create_uid" string="创建人" readonly="1"/>
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="作业" name="page_card">
+                                <field name="move_lines"
+                                       context="{'picking_type_code': picking_type_code, 'default_picking_id': id, 'form_view_ref':'stock.view_move_picking_form', 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">
+
+                                    <form string="Idea form">
+                                        <group>
+                                            <group>
+                                                <separator string="物资信息" colspan="2"/>
+                                                <field name="product_id"
+                                                       options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                                <field name="product_uom_qty"/>
+                                                <field name="product_uom"/>
+                                                <field name="price_unit" groups="amos_stock.know_price"/>
+                                                <field name="price_subtotal" groups="amos_stock.know_price"/>
+                                            </group>
+
+                                            <group>
+                                                <separator string="库位信息" colspan="2"/>
+                                                <field name="name"/>
+                                                <field name="warehouse_id"/>
+                                                <field name="stock_out_in_qty" widget="integer"/>
+                                                <field name="stock_out_in_owe_qty" widget="integer"/>
+                                            </group>
+
+                                            <notebook colspan="4">
+                                                <page string="备注">
+                                                    <field name="note" nolabel="1"/>
+                                                </page>
+                                            </notebook>
+                                        </group>
+                                    </form>
+
+
+                                    <tree string="出库明细" editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="parent_id" invisible='1'/>
+                                        <field name="name" invisible='1'/>
+                                        <field name="product_id" required='1'
+                                               options="{'no_create_edit': True}"/>
+                                        <field name="product_uom_qty" required='1' widget="integer"/>
+                                        <field name="product_uom"/>
+                                        <field name="stock_out_in_qty" widget="integer"/>
+                                        <field name="stock_out_lose_qty" widget="integer"/>
+                                        <field name="stock_out_in_owe_qty" widget="integer"/>
+
+                                        <field name="price_unit" groups="amos_stock.know_price"/>
+                                        <field name="price_subtotal" groups="amos_stock.know_price"/>
+                                        <field name="warehouse_id" groups="amos_stock.stock_location"
+                                               options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+
+                                <separator string="用途" colspan="2"/>
+                                <field name="note" attrs="{'readonly': [('state', '=', '已完成')]}" placeholder="暂无备注信息"/>
+                            </page>
+                            <page string="借出还入单/丢失单">
+                                <field name="backorder_ids"
+                                       context="{'form_view_ref':'amos_stock.odoo_stock_lend_out_in_form','tree_view_ref':'amos_stock.odoo_stock_lend_out_in_tree'}"
+                                       readonly="1"/>
+                            </page>
+
+                            <page string="其它">
+                                <group>
+                                    <group>
+                                        <field name="stop_date" readonly='1'/>
+                                    </group>
+                                    <group>
+                                        <field name="company_id" options="{'no_create': True}" required='1'
+                                               groups="base.group_multi_company"/>
+
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+
+                    </sheet>
+
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="odoo_stock_lend_out_tree">
+            <field name="name">stock.picking.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <tree string="借出单" decoration-bf="message_needaction==True" decoration-info="state == '新建'"
+                      decoration-danger="state == '待审批'" decoration-muted="state == '已完成'">
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="other_id" string="借用人"/>
+                    <field name="user_id" string="借出人"/>
+                    <field name="delivery_date" string="计划归还日期"/>
+                    <field name="duration"/>
+                    <field name="document_state"/>
+                    <field name="stop_date" widget="date"/>
+                    <field name="create_uid" string="创建人" readonly="1"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="odoo_stock_lend_out_search" model="ir.ui.view">
+            <field name="name">stock.picking.internal.search</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <search string="">
+                    <field name="name" string=""
+                           filter_domain="['|','|',('name','ilike', self),('origin','ilike',self),('date_order_str','ilike',self)]"/>
+
+                    <separator/>
+                    <filter string="我创建的单据" domain="[('create_uid','=',uid)]" name="my_orders_filter"/>
+                    <separator/>
+                    <filter name="late" string="迟到"
+                            domain="[('scheduled_date','&lt;', time.strftime('%%Y-%%m-%%d %%H:%%M:%%S'))]"
+                            help="Pickings that are late on scheduled time"/>
+                    <separator/>
+                    <filter name="backorder" string="欠单" domain="[('backorder_id','!=', False)]"
+                            help="Remaining parts of picking partially processed"/>
+                    <separator/>
+                    <filter string="我借出的" name="activities_my"
+                            domain="[('activity_ids.user_id', '=', uid)]"/>
+                    <separator/>
+                    <filter string="逾期任务" name="activities_overdue"
+                            domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                            help="Show all records which has next action date is before today"/>
+                    <filter string="今天任务" name="activities_today"
+                            domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="未来任务" name="activities_upcoming_all"
+                            domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
+                        ]"/>
+                    <field name="partner_id" filter_domain="[('partner_id','child_of',self)]"/>
+                    <field name="product_id"/>
+                    <field name="picking_type_id"/>
+                    <field name="group_id"/>
+                    <separator/>
+                    <filter string="新建" name="state1" domain="[('state','=','新建')]"/>
+                    <filter string="待审批" name="state2" domain="[('state','=','待审批')]"/>
+                    <filter string="仓库" name="state3" domain="[('state','=','仓库')]"/>
+                    <filter string="已完成" name="state4" domain="[('state','=','已完成')]"/>
+                    <filter string="未完成" name="state5" domain="[('state','!=','已完成')]"/>
+                     <filter string="未归还" name="document_state_no" domain="[('document_state','!=','全部归还')]"/>
+                    <separator/>
+                    <group expand="0" string="分组">
+                        <filter string="单据状态" name="status" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="归还状态" name="document_state" domain="[]"
+                                context="{'group_by':'document_state'}"/>
+                        <filter string="借出人" name="status" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="借用人" name="status" domain="[]" context="{'group_by':'other_id'}"/>
+                        <filter string="创建日期" name="order_date" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="预计处理日期" name="expected_date" domain="[]"
+                                context="{'group_by': 'scheduled_date'}"/>
+                        <filter string="来源" name="origin" domain="[]" context="{'group_by':'origin'}"/>
+                        <filter string="借用单位" name="partner_id" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter name="picking_type" string="作业类型" domain="[]"
+                                context="{'group_by':'picking_type_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="odoo_stock_lend_out_actions" model="ir.actions.act_window">
+            <field name="name">借出单</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('picking_type_id', '=', active_id)]</field>
+            <field name="context">{
+                'search_default_picking_type_id': [active_id],
+                'default_picking_type_id': active_id,
+                'contact_display': 'partner_address',
+                }
+            </field>
+            <field name="search_view_id" ref="odoo_stock_lend_out_search"/>
+            <field name="view_id" ref="odoo_stock_lend_out_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    借出单
+                </p>
+            </field>
+        </record>
+
+
+        <record id="odoo_stock_lend_out_actions_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="odoo_stock_lend_out_tree"/>
+            <field name="act_window_id" ref="odoo_stock_lend_out_actions"/>
+        </record>
+
+        <record id="odoo_stock_lend_out_actions_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="odoo_stock_lend_out_form"/>
+            <field name="act_window_id" ref="odoo_stock_lend_out_actions"/>
+        </record>
+
+
+        <record id="odoo_stock_lend_out_actions_state1" model="ir.actions.act_window">
+            <field name="name">借出单</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="odoo_stock_lend_out_search"/>
+            <field name="view_id" ref="odoo_stock_lend_out_tree"/>
+            <field name="domain">[('picking_type_id', '=', active_id)]</field>
+            <field name="context">{
+                'search_default_picking_type_id': [active_id],
+                'default_picking_type_id': active_id,
+                'contact_display': 'partner_address',
+                'search_default_state1': 1,
+                }
+            </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    借出单
+                </p>
+            </field>
+        </record>
+
+        <record id="odoo_stock_lend_out_actions_state1_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="odoo_stock_lend_out_tree"/>
+            <field name="act_window_id" ref="odoo_stock_lend_out_actions_state1"/>
+        </record>
+
+        <record id="odoo_stock_lend_out_actions_state1_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="odoo_stock_lend_out_form"/>
+            <field name="act_window_id" ref="odoo_stock_lend_out_actions_state1"/>
+        </record>
+
+
+        <record id="odoo_stock_lend_out_actions_state2" model="ir.actions.act_window">
+            <field name="name">借出单</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="odoo_stock_lend_out_search"/>
+            <field name="view_id" ref="odoo_stock_lend_out_tree"/>
+            <field name="domain">[('picking_type_id', '=', active_id)]</field>
+            <field name="context">{
+                'search_default_picking_type_id': [active_id],
+                'default_picking_type_id': active_id,
+                'contact_display': 'partner_address',
+                'search_default_state2': 1,
+                }
+            </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    借出单
+                </p>
+            </field>
+        </record>
+
+        <record id="odoo_stock_lend_out_actions_state2_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="odoo_stock_lend_out_tree"/>
+            <field name="act_window_id" ref="odoo_stock_lend_out_actions_state2"/>
+        </record>
+
+        <record id="odoo_stock_lend_out_actions_state2_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="odoo_stock_lend_out_form"/>
+            <field name="act_window_id" ref="odoo_stock_lend_out_actions_state2"/>
+        </record>
+
+
+        <record id="odoo_stock_lend_out_actions_state3" model="ir.actions.act_window">
+            <field name="name">借出单</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="odoo_stock_lend_out_search"/>
+            <field name="view_id" ref="odoo_stock_lend_out_tree"/>
+            <field name="domain">[('picking_type_id', '=', active_id)]</field>
+            <field name="context">{
+                'search_default_picking_type_id': [active_id],
+                'default_picking_type_id': active_id,
+                'contact_display': 'partner_address',
+                'search_default_state3': 1,
+                }
+            </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    借出单
+                </p>
+            </field>
+        </record>
+
+        <record id="odoo_stock_lend_out_actions_state3_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="odoo_stock_lend_out_tree"/>
+            <field name="act_window_id" ref="odoo_stock_lend_out_actions_state3"/>
+        </record>
+
+        <record id="odoo_stock_lend_out_actions_state3_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="odoo_stock_lend_out_form"/>
+            <field name="act_window_id" ref="odoo_stock_lend_out_actions_state3"/>
+        </record>
+
+        <record id="odoo_stock_lend_out_actions_state4" model="ir.actions.act_window">
+            <field name="name">借出单</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="odoo_stock_lend_out_search"/>
+            <field name="view_id" ref="odoo_stock_lend_out_tree"/>
+            <field name="domain">[('picking_type_id', '=', active_id)]</field>
+            <field name="context">{
+                'search_default_picking_type_id': [active_id],
+                'default_picking_type_id': active_id,
+                'contact_display': 'partner_address',
+                'search_default_state4': 1,
+                }
+            </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    借出单
+                </p>
+            </field>
+        </record>
+
+        <record id="odoo_stock_lend_out_actions_state4_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="odoo_stock_lend_out_tree"/>
+            <field name="act_window_id" ref="odoo_stock_lend_out_actions_state4"/>
+        </record>
+
+        <record id="odoo_stock_lend_out_actions_state4_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="odoo_stock_lend_out_form"/>
+            <field name="act_window_id" ref="odoo_stock_lend_out_actions_state4"/>
+        </record>
+
+
+        <record id="odoo_stock_lend_out_actions" model="ir.actions.act_window">
+            <field name="name">借出单</field>
+            <field name="res_model">stock.picking</field>
+
+            <field name="domain" eval="[('picking_type_id', '=', ref('amos_stock.stock_picking_type_lend_b'))]"/>
+
+            <field name="context"
+                   eval="{'search_default_picking_type_id': [ref('amos_stock.stock_picking_type_lend_b')],'default_picking_type_id': ref('amos_stock.stock_picking_type_lend_b'),'contact_display':'partner_address','default_type':'out','search_default_document_state_no': 1,'global_search_menu': ref('amos_base.menu_4'),'global_search_actions': ref('amos_stock.odoo_stock_lend_out_actions')}"/>
+            <field name="search_view_id" ref="odoo_stock_lend_out_search"/>
+        </record>
+
+        <menuitem action="odoo_stock_lend_out_actions" id="menu_stock_picking_lend_out_act" sequence="4"
+                  parent="amos_base.menu_4"/>
+
+
+    </data>
+</odoo>

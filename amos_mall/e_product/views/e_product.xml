@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="e_product_form">
+        <field name="name">e.product.form</field>
+        <field name="model">e.product</field>
+        <field name="arch" type="xml">
+            <form string="产品">
+                <field name="id" invisible="1"/>
+                <header>
+                    <button name='action_draft' states='下架' string='重置' type='object'
+                            class='oe_highlight'/>
+                    <button name='action_done' states='新建' string='上架' type='object'
+                            class='oe_highlight'/>
+                    <button name='action_cancel' states='上架' string='下架' type='object'
+                            class='oe_highlight'/>
+                    <field name='state' widget='statusbar' statusbar_visible="新建,上架,下架"/>
+                </header>
+                <div class="row">
+                    <button name="a8195" string="&#8195;" type="object" disabled="disabled"/>
+                    <field name="attribute_comment" class="oe_inline"/>
+                    <label for="attribute_comment"/>
+
+                    <field name="attribute_selective" class="oe_inline"/>
+                    <label for="attribute_selective"/>
+
+                    <field name="attribute_recommend" class="oe_inline"/>
+                    <label for="attribute_recommend"/>
+
+                    <field name="attribute_roll" class="oe_inline"/>
+                    <label for="attribute_roll"/>
+
+                    <field name="attribute_hot" class="oe_inline"/>
+                    <label for="attribute_hot"/>
+
+                    <field name="attribute_projector" class="oe_inline"/>
+                    <label for="attribute_projector"/>
+
+                    <field name="attribute_head" class="oe_inline"/>
+                    <label for="attribute_head"/>
+
+                    <field name="attribute_carefully" class="oe_inline"/>
+                    <label for="attribute_carefully"/>
+
+                    <field name="attribute_placement" class="oe_inline"/>
+                    <label for="attribute_placement"/>
+
+                    <field name="attribute_sale" class="oe_inline"/>
+                    <label for="attribute_sale"/>
+
+                    <field name="attribute_break_code" class="oe_inline"/>
+                    <label for="attribute_break_code"/>
+
+
+                    <button name="a8195" string="&#8195;" type="object" disabled="disabled"/>
+
+                    <field name="is_generate" class="oe_inline"/>
+                    <label for="is_generate"/>
+
+                    <field name="is_vip" class="oe_inline"/>
+                    <label for="is_vip"/>
+
+                    <field name="islock" class="oe_inline"/>
+                    <label for="islock"/>
+
+                </div>
+                <sheet>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                        <label for="login" class="oe_edit_only" string="产品类型"/>
+                        <h2>
+                            <field name="newtype" widget="radio" options="{'horizontal': true}"/>
+                        </h2>
+                    </div>
+
+
+                    <group name="product">
+                        <group name="groups1" string="产品信息">
+                            <field name="barcode"/>
+                            <field name="default_code" required="1"/>
+                            <field name="specification"/>
+                            <field name="brand"/>
+                            <field name="user_id" required="1"
+                                   options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                            <field name="company_id" required="1" groups="base.group_multi_company"
+                                   options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                        </group>
+                        <group string="价格">
+
+                            <field name="cost_price"/>
+                            <field name="sale_price" required="1"/>
+                            <field name="purchase_price"/>
+                            <field name="integral" required="1"/>
+                            <field name="uom" required="1"/>
+                            <field name="qty" required="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="属性">
+                            <field name="urladdress"
+                                   attrs="{'invisible': [('newtype', '=', '图片')],'required': [('newtype','!=','图片')]}"/>
+                            <field name="tag_ids" widget="many2many_tags"/>
+
+                            <field name="pagefontsize"/>
+                            <field name="color" widget="color" options="{'readonly_mode': 'color'}"/>
+
+                            <field name="date_start" required='1'/>
+                            <field name="date_end" required='1'/>
+                            <field name="app_style"/>
+                        </group>
+                        <group string="静态参数">
+
+                            <field name="web_templet"
+                                   attrs="{'required': [('is_generate','=',True)]}"
+                                   options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                            <field name="app_templet"
+                                   attrs="{'required': [('is_generate','=',True)]}"
+                                   options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+
+                            <field name="web_savepath"/>
+                            <field name="app_savepath"/>
+                            <field name="fileexname"/>
+                            <field name="access_token" readonly='1'/>
+                        </group>
+                        <group>
+
+                            <label for="is_vip" string="标题属性"/>
+                            <div class="row">
+
+
+                                <field name="titlebtf" class="oe_inline"/>
+                                <label for="titlebtf" string="粗体"/>
+
+                                <field name="titleitf" class="oe_inline"/>
+                                <label for="titleitf" string="斜体"/>
+                            </div>
+
+
+                            <field name="ico"/>
+                        </group>
+                    </group>
+
+                    <group string="产品描述">
+                        <group>
+                            <field name="navicontenttf" widget="text"/>
+                        </group>
+                        <group>
+                            <field name="note" placeholder="内部员工备注信息"/>
+                        </group>
+                    </group>
+
+                    <separator string="详情" colspan="2"/>
+                    <field name="describe"/>
+
+                    <separator string="周边商品" colspan="2"/>
+                    <field name="peripheral_ids"/>
+
+                    <notebook colspan="4">
+                        <page string="产品图片" autofocus="autofocus">
+                            <field name="images"/>
+                        </page>
+
+                    </notebook>
+
+
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="e_product_tree">
+        <field name="name">e.product.tree</field>
+        <field name="model">e.product</field>
+        <field name="arch" type="xml">
+            <tree string="产品" name="e_product_tree">
+                <field name="default_code"/>
+                <field name="name"/>
+                <field name="specification"/>
+                <field name="navicontenttf"/>
+                <field name="tag_ids" widget="many2many_tags"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="user_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_search_e_product" model="ir.ui.view">
+        <field name="name">e.product.search</field>
+        <field name="model">e.product</field>
+        <field name="arch" type="xml">
+            <search string="查询">
+                <field name="name" string="单据"
+                       filter_domain="['|',('name','ilike',self),('default_code','ilike',self)]"/>
+                <separator/>
+                <filter string="允许评论" name="attribute_comment" domain="[('attribute_comment','=',True)]"/>
+                <filter string="推荐" name="attribute_recommend" domain="[('attribute_recommend','=',True)]"/>
+                <filter string="滚动" name="attribute_roll" domain="[('attribute_roll','=',True)]"/>
+                <filter string="热门" name="attribute_roll" domain="[('attribute_hot','=',True)]"/>
+                <filter string="幻灯" name="attribute_projector" domain="[('attribute_projector','=',True)]"/>
+                <filter string="头条" name="attribute_head" domain="[('attribute_head','=',True)]"/>
+                <filter string="精选" name="attribute_carefully" domain="[('attribute_carefully','=',True)]"/>
+                <filter string="置顶" name="attribute_placement" domain="[('attribute_placement','=',True)]"/>
+                <filter string="特卖" name="attribute_sale" domain="[('attribute_sale','=',True)]"/>
+                <filter string="断码" name="attribute_break_code" domain="[('attribute_break_code','=',True)]"/>
+                <filter string="VIP服务" name="is_vip" domain="[('is_vip','=',True)]"/>
+                <filter string="是否锁定" name="islock" domain="[('islock','=',True)]"/>
+                <filter string="是否锁定" name="islock" domain="[('islock','=',True)]"/>
+                <filter string="静态" name="is_generate" domain="[('is_generate','=',True)]"/>
+                <separator/>
+                <filter string="新建" name="state1" domain="[('state','=','新建')]"/>
+                <filter string="上架" name="state2" domain="[('state','=','上架')]"/>
+                <filter string="下架" name="state3" domain="[('state','=','下架')]"/>
+                <separator/>
+                <filter string="有效" name="active1" domain="[('active','=',True)]"/>
+                <filter string="无效" name="active1" domain="[('active','=',0)]"/>
+                <separator/>
+                <group expand="0" string="分组">
+                    <filter string="销售公开价格" name="sale_price" domain="[]" context="{'group_by':'sale_price'}"/>
+                    <filter string="品牌" name="brand" domain="[]" context="{'group_by':'brand'}"/>
+                    <filter string="开始日期" name="date_start" domain="[]" context="{'group_by':'date_start'}"/>
+                    <filter string="结束日期" name="date_end" domain="[]" context="{'group_by':'date_end'}"/>
+                    <filter string="APP风格" name="app_style" domain="[]" context="{'group_by':'app_style'}"/>
+                    <filter string="商品状态" name="state" domain="[]" context="{'group_by':'state'}"/>
+                    <filter string="产品管理员" name="user_id" domain="[]" context="{'group_by':'user_id'}"/>
+                    <filter string="公司" name="company_id" domain="[]" context="{'group_by':'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="e_product_act" model="ir.actions.act_window">
+        <field name="name">产品</field>
+        <field name="res_model">e.product</field>
+        <field name="limit">40</field>
+        <field name="search_view_id" ref="view_search_e_product"/>
+        <field name="view_id" ref="e_product_tree"/>
+    </record>
+
+
+    <menuitem action="e_product_act"
+              id="menu_e_product_act"
+              sequence="10"
+               parent="e_base.menu_e_base"
+              web_icon="e_product,static/description/icon.png"
+    />
+
+
+    <record id="action_e_product_view1" model="ir.actions.act_window.view">
+        <field eval="10" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="e_product_tree"/>
+        <field name="act_window_id" ref="e_product_act"/>
+    </record>
+    <record id="action_e_product_view2" model="ir.actions.act_window.view">
+        <field eval="20" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="e_product_form"/>
+        <field name="act_window_id" ref="e_product_act"/>
+    </record>
+
+</odoo>

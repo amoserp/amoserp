@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="0">
+        <record id="e_ad_groups" model="ir.module.category">
+            <field name="name">APP广告</field>
+        </record>
+
+        <record id="e_ad_manager" model="res.groups">
+            <field name="name">APP广告-经理</field>
+            <field name="category_id" ref="e_ad.e_ad_groups"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+    </data>
+
+   
+</odoo>

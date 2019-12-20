@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_form_union_product_stock_wizard" model="ir.ui.view">
+            <field name="name">仓库合并</field>
+            <field name="model">union.product.stock.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Import">
+
+                    <group colspan="2">
+                        <field name="form_warehouse"/>
+                        <field name="to_warehouse"/>
+                    </group>
+                    <footer>
+                        <button name="union_product" string="确认" type="object" class="oe_highlight"/>
+                        or
+                        <button string="取消" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="actions_union_product_stock_wizard" model="ir.actions.act_window">
+            <field name="name">仓库合并</field>
+            <field name="res_model">union.product.stock.wizard</field>
+
+            <field name="view_mode">form</field>
+            <field name="limit">20</field>
+            <field name="view_id" ref="view_form_union_product_stock_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>
+

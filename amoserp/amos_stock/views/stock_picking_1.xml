@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record model="ir.ui.view" id="amos_form_stock_picking_1">
+            <field name="name">stock.picking.1.form</field>
+            <field name="model">stock.picking.1</field>
+            <field name="arch" type="xml">
+                <form string="其它入库单">
+                    <header>
+                        <field name="id" invisible="1"/>
+                        <field name="picking_type_code" invisible="1"/>
+                        <button name='button_loading_draft' groups="amos_stock.stock_manager" states='待审批' string='重置新建'
+                                type='object' class='oe_highlight'/>
+                        <button name='button_done_draft' groups="amos_stock.stock_manager" states='已完成' string='重置新建'
+                                type='object' class='oe_highlight'/>
+                        <button name='button_loading' groups="amos_stock.stock_users" states='新建' string='提交'
+                                type='object' class='oe_highlight'/>
+                        <button name='button_done' groups="amos_stock.stock_manager" states='待审批' string='审核'
+                                type='object' class='oe_highlight'/>
+
+
+                        <field name='state' widget='statusbar' statusbar_visible="新建,待审批,已完成"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box" attrs="{'invisible': [('state', '!=', '已完成')]}">
+                            <button name="create_stock_lend_out_in"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-pencil-square-o"
+                                    string="创建还入单"
+                                    groups="amos_stock.stock_users"
+                            >
+                            </button>
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive"
+                                    groups="amos_stock.stock_users">
+                                <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                        <h1 class="d-none d-md-block">
+                            <field name="name" attrs="{'invisible': [('name','=','/')]}" readonly="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="partner_id" required="1" domain="[('supplier','=',True)]"
+                                       context="{'search_default_supplier':1, 'default_supplier':1, 'default_customer':1}"
+                                       options="{'no_create_edit': True}"
+                                       string="供应商"/>
+                                <field name="user_id" string="采购员" required='1'
+                                       options="{'no_create_edit': True}"/>
+                                <field name="picking_type_id" required="1" invisible="1"
+                                       attrs="{'readonly': [('picking_type_id','!=',False)],'invisible': ['|',('picking_type_id', '=', False),('id', '=', False)]}"/>
+
+                                <field name="location_id" invisible="1"/>
+                                <field name="location_dest_id" invisible="1"/>
+
+
+                            </group>
+                            <group>
+                                <field name="date" readonly='1'/>
+                                <field name="scheduled_date"/>
+                                <field name="origin"/>
+                                <field name="create_uid" string="创建人" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="作业" name="page_card">
+                                <field name="move_lines"
+                                       context="{'picking_type_code': picking_type_code, 'default_picking_id': id, 'form_view_ref':'stock.view_move_picking_form', 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">
+
+                                    <form string="Idea form">
+                                        <group>
+                                            <group>
+                                                <separator string="物资信息" colspan="2"/>
+                                                <field name="product_id"
+                                                       options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                                <field name="product_uom_qty"/>
+                                                <field name="product_uom"/>
+                                                <field name="price_unit" groups="amos_stock.know_price"/>
+                                                <field name="price_subtotal" groups="amos_stock.know_price"/>
+                                            </group>
+
+                                            <group>
+                                                <separator string="库位信息" colspan="2"/>
+                                                <field name="name"/>
+                                                <field name="warehouse_id"/>
+                                            </group>
+
+                                            <notebook colspan="4">
+                                                <page string="备注">
+                                                    <field name="note" nolabel="1"/>
+                                                </page>
+                                            </notebook>
+                                        </group>
+                                    </form>
+
+
+                                    <tree string="出库明细" editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name" invisible='1'/>
+                                        <field name="product_id" required='1'
+                                               options="{'no_create_edit': True}"/>
+                                        <field name="product_uom_qty" required='1' widget="integer"/>
+                                        <field name="product_uom"/>
+                                        <field name="price_unit" groups="amos_stock.know_price"/>
+                                        <field name="price_subtotal" groups="amos_stock.know_price"/>
+                                        <field name="warehouse_id" groups="amos_stock.stock_location"
+                                               options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+
+                                <separator string="备注" colspan="2"/>
+                                <field name="note" placeholder="暂无备注信息"/>
+                            </page>
+                            <page string="其它">
+                                <group>
+                                    <group>
+                                        <field name="stop_date" readonly='1'/>
+                                    </group>
+                                    <group>
+                                        <field name="company_id" options="{'no_create': True}" required='1'
+                                               groups="base.group_multi_company"/>
+
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="amos_tree_stock_picking_1">
+            <field name="name">stock.picking.1.tree</field>
+            <field name="model">stock.picking.1</field>
+            <field name="arch" type="xml">
+                <tree string="其它入库单" decoration-bf="message_needaction==True" decoration-info="state == '新建'"
+                      decoration-danger="state == '待审批'" decoration-muted="state == '已完成'">
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="name"/>
+                    <field name="partner_id" string="供应商"/>
+                    <field name="date" widget="date"/>
+                    <field name="user_id" string="采购员"/>
+                    <field name="stop_date" widget="date"/>
+                    <field name="create_uid" string="创建人" readonly="1"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="amos_search_stock_picking_1" model="ir.ui.view">
+            <field name="name">stock.picking.1.search</field>
+            <field name="model">stock.picking.1</field>
+            <field name="arch" type="xml">
+                <search string="查询">
+                    <field name="name" string="查询"
+                           filter_domain="['|',('name','ilike', self),('origin','ilike',self)]"/>
+
+                    <filter string="我创建的单据" domain="[('create_uid','=',uid)]" name="my_orders_filter"/>
+                    <filter string="未读消息" name="message_needaction" domain="[('message_needaction','=',True)]"/>
+                    <separator/>
+                    <filter string="未审核" name="state1" domain="[('state','=','新建')]"/>
+                    <filter string="待审批" name="state2" domain="[('state','=','待审批')]"/>
+                    <filter string="仓库" name="state3" domain="[('state','=','仓库')]"/>
+                    <filter string="已完成" name="state4" domain="[('state','=','已完成')]"/>
+                    <separator/>
+
+                    <filter string="已归档" name="active_yes" domain="[('active','=',False)]"/>
+                    <filter string="未归档" name="active_no" domain="[('active','=',True)]"/>
+                    <separator/>
+
+                    <group expand="0" string="分组">
+                        <filter string="归档" name="active" domain="[]" context="{'group_by':'active'}"/>
+                        <filter string="采购员" name="user_id" domain="[]" context="{'group_by':'user_id'}"/>
+                        <filter string="供应商" name="partner_id" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="单据状态" name="state" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="公司" name="company_id" domain="[]" context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="amos_actions_stock_picking_1" model="ir.actions.act_window">
+            <field name="name">其它入库单</field>
+            <field name="res_model">stock.picking.1</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+            <field name="domain">[('picking_type_id', '=', active_id)]</field>
+            <field name="context">{
+                'search_default_picking_type_id': [active_id],
+                'default_picking_type_id': active_id,
+                'contact_display': 'partner_address',
+                }
+            </field>
+            <field name="search_view_id" ref="amos_search_stock_picking_1"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    其它入库单
+                </p>
+            </field>
+        </record>
+
+        <record id="amos_actions_stock_picking_1_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="amos_tree_stock_picking_1"/>
+            <field name="act_window_id" ref="amos_actions_stock_picking_1"/>
+        </record>
+
+        <record id="amos_actions_stock_picking_1_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="amos_form_stock_picking_1"/>
+            <field name="act_window_id" ref="amos_actions_stock_picking_1"/>
+        </record>
+
+        
+        
+        
+
+         <record id="amos_actions_stock_picking_1_state1" model="ir.actions.act_window">
+            <field name="name">其它入库单</field>
+            <field name="res_model">stock.picking.1</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+             <field name="limit">20</field>
+            <field name="search_view_id" ref="amos_search_stock_picking_1"/>
+            <field name="view_id" ref="amos_tree_stock_picking_1"/>
+            <field name="domain">[('picking_type_id', '=', active_id)]</field>
+            <field name="context">{
+                'search_default_picking_type_id': [active_id],
+                'default_picking_type_id': active_id,
+                'contact_display': 'partner_address',
+                'search_default_state1': 1,
+                }
+            </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    其它入库单
+                </p>
+            </field>
+        </record>
+
+        <record id="amos_actions_stock_picking_1_state1_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="amos_tree_stock_picking_1"/>
+            <field name="act_window_id" ref="amos_actions_stock_picking_1_state1"/>
+        </record>
+
+        <record id="amos_actions_stock_picking_1_state1_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="amos_form_stock_picking_1"/>
+            <field name="act_window_id" ref="amos_actions_stock_picking_1_state1"/>
+        </record>
+
+
+        <record id="amos_actions_stock_picking_1_state2" model="ir.actions.act_window">
+            <field name="name">其它入库单</field>
+            <field name="res_model">stock.picking.1</field>
+            <field name="type">ir.actions.act_window</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+            <field name="search_view_id" ref="amos_search_stock_picking_1"/>
+            <field name="view_id" ref="amos_tree_stock_picking_1"/>
+            <field name="domain">[('picking_type_id', '=', active_id)]</field>
+            <field name="context">{
+                'search_default_picking_type_id': [active_id],
+                'default_picking_type_id': active_id,
+                'contact_display': 'partner_address',
+                'search_default_state2': 1,
+                }
+            </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    其它入库单
+                </p>
+            </field>
+        </record>
+
+        <record id="amos_actions_stock_picking_1_state2_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="amos_tree_stock_picking_1"/>
+            <field name="act_window_id" ref="amos_actions_stock_picking_1_state2"/>
+        </record>
+
+        <record id="amos_actions_stock_picking_1_state2_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="amos_form_stock_picking_1"/>
+            <field name="act_window_id" ref="amos_actions_stock_picking_1_state2"/>
+        </record>
+
+
+        <record id="amos_actions_stock_picking_1_state3" model="ir.actions.act_window">
+            <field name="name">其它入库单</field>
+            <field name="res_model">stock.picking.1</field>
+            <field name="type">ir.actions.act_window</field>
+
+            <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+            <field name="search_view_id" ref="amos_search_stock_picking_1"/>
+            <field name="view_id" ref="amos_tree_stock_picking_1"/>
+            <field name="domain">[('picking_type_id', '=', active_id)]</field>
+            <field name="context">{
+                'search_default_picking_type_id': [active_id],
+                'default_picking_type_id': active_id,
+                'contact_display': 'partner_address',
+                'search_default_state3': 1,
+                }
+            </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    其它入库单
+                </p>
+            </field>
+        </record>
+
+        <record id="amos_actions_stock_picking_1_state3_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="amos_tree_stock_picking_1"/>
+            <field name="act_window_id" ref="amos_actions_stock_picking_1_state3"/>
+        </record>
+
+        <record id="amos_actions_stock_picking_1_state3_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="amos_form_stock_picking_1"/>
+            <field name="act_window_id" ref="amos_actions_stock_picking_1_state3"/>
+        </record>
+
+    </data>
+</odoo>

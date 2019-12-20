@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+
+        <record model="stock.location" id="stock_location_01">
+            <field name="name">库位</field>
+            <field name="usage">view</field>
+        </record>
+
+        <record model="stock.location" id="stock_location_01_01">
+            <field name="name">库存</field>
+            <field name="usage">internal</field>
+            <field name="location_id" ref="stock_location_01"/>
+        </record>
+
+
+    </data>
+</odoo>

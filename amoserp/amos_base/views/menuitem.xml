@@ -7,6 +7,14 @@
     <menuitem id="menu_1_99" name="常用报表" sequence="99" parent="menu_1"/>
     <menuitem id="menu_1_100" name="设置" sequence="100" parent="menu_1"/>
 
+    <menuitem id="menu_3" name="采购" sequence="13" web_icon="amos_purchase,static/description/icon.png"/>
+    <menuitem id="menu_3_1" name="采购" sequence="1" parent="menu_3"/>
+    <menuitem id="menu_3_99" name="常用报表" sequence="99" parent="menu_3"/>
+    <menuitem id="menu_3_100" name="设置" sequence="100" parent="menu_3"/>
+
+    <menuitem id="menu_4" name="仓库" sequence="14" web_icon="amos_base,static/description/icon.png"/>
+    <menuitem id="menu_4_9" name="储位" sequence="3" parent="menu_4"/>
+    <menuitem id="menu_4_100" name="设置" sequence="100" parent="menu_4"/>
 
     <menuitem id="menu_tool" name="配置" groups="amos_base.amos_admin" sequence="100"
               web_icon="amos_base,static/description/icon.png"/>
